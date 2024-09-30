@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+	th:replace="~{admin/admin-base::layout(~{::section})}">
+<head>
+<meta charset="UTF-8">
+<title>Edit Category</title>
+</head>
+<body>
+	<Section>
+		<div class="modal fade" id="edit-category">
+			<div class="modal-dialog modal-xl modal-dialog-scrollable">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title"></h4>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="card">
+							<h4 class="text-primary" style="text-align: center;">Edit
+								Category</h4>
+							<div class="card-body">
+
+								<form action="https://adminlte.io/themes/v3/index3.html"
+									method="post">
+									<div class="mb-3">
+										<label>Enter Title</label> <input type="text"
+											class="form-control" placeholder="Enter Title">
+
+									</div>
+									<div class="mb-3">
+										<label>Enter Description</label>
+										<textarea rows="3" cols="" class="form-control"
+											placeholder="Enter Title"></textarea>
+
+									</div>
+									<div class="mb-3">
+										<label>Enter Description</label> <select class="form-control">
+											<option>--select--</option>
+											<option>Electronics</option>
+										</select>
+
+									</div>
+									<div class="mb-3">
+										<label>Price</label> <input type="text" class="form-control"
+											placeholder="Enter Title">
+
+									</div>
+									<div class="row">
+										<div class="col mb-3">
+											<label>Enter stock</label> <input type="text"
+												class="form-control" placeholder="Enter Title">
+
+										</div>
+										<div class="col mb-3">
+											<label>Upload Image</label> <input type="file"
+												class="form-control" placeholder="Enter Title">
+
+										</div>
+									</div>
+
+
+
+									<div class="col-12">
+										<button type="submit" class="btn btn-primary btn-block">Sign
+											In</button>
+									</div>
+
+								</form>
+							</div>
+						</div>
+					</div>
+</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+	</Section>
+</body>
+</html>

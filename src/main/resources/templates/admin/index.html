@@ -1,12 +1,204 @@
 <!DOCTYPE html>
-<html lang ="en" xmlns:th="https://www.thymeleaf.org"  th:replace="~{base::layout(~{::section})}">
+<html lang ="en" xmlns:th="https://www.thymeleaf.org"  th:replace="~{admin/admin-base::layout(~{::section})}">
 <head>
 <meta charset="UTF-8">
 <title>Home</title>
 </head>
-<body>
+
 <section class="container-fluid">
- 
+ <div class="content-wrapper">
+			<!-- Content Header (Page header) -->
+			<div class="content-header">
+				<div class="container-fluid">
+					<div class="row mb-2">
+						<div class="col-sm-6">
+							<!-- <h1 class="m-0 text-dark">Dashboard</h1> -->
+						</div>
+						<!-- /.col -->
+						<div class="col-sm-6">
+							<ol class="breadcrumb float-sm-right">
+								<!-- <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">Dashboard v1</li> -->
+							</ol>
+						</div>
+						<!-- /.col -->
+					</div>
+					<!-- /.row -->
+				</div>
+				<!-- /.container-fluid -->
+			</div>
+			<!-- /.content-header -->
+
+			<!-- Main content -->
+			<section class="content">
+
+				<div class="container-fluid">
+					<!-- <div th:if="${param.success}" id="myDiv" class="bg-success fade-in-element" style="color:white;padding:6px;width:30%;margin:auto">
+					<p style="text-align:center">Login sucessful</p>
+				</div> -->
+
+
+					<div th:if="${param.success}">
+						<script th:inline="javascript">
+							/*<![CDATA[*/
+							$(document).ready(function() {
+								$.toast({
+									heading : 'Success',
+									text : 'Login successful!',
+									showHideTransition : 'slide',
+									icon : 'success',
+									position : 'top-right'
+								});
+							});
+							/*]]>*/
+						</script>
+					</div>
+
+					<!-- Small boxes (Stat box) -->
+					<div class="row">
+						<div class="col-lg-3 col-6">
+							<!-- small box -->
+							<div class="small-box"
+								style="background-color: white; border-bottom: 8px solid dodgerblue; border-top: 2px solid dodgerblue; display: grid; grid-template-columns: 2fr 1fr; align-items: center;">
+								<div class="inner">
+
+									<h1 
+										style="color: dodgerblue; font-size: 50px;">50</h1>
+
+									<p>
+									<h5 class="text-primary">Books</h5>
+									</p>
+								</div>
+								<div class="icon">
+									<i class="fas"> <img
+										th:src="@{/Images/icons8_Book_Shelf_50px.png}" alt=""
+										srcset="">
+									</i>
+								</div>
+								<!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+							</div>
+						</div>
+						<!-- ./col -->
+						<div class="col-lg-3 col-6">
+							<!-- small box -->
+							<div class="small-box"
+								style="background-color: white; border-bottom: 8px solid aqua; border-top: 2px solid aqua; display: grid; grid-template-columns: 2fr 1fr; align-items: center;">
+								<div class="inner">
+
+									<h1 
+										style="color: aqua; font-size: 50px;">20</h1>
+
+									<p>
+									<h5 class="text-success">Students</h5>
+									</p>
+								</div>
+								<div class="icon">
+									<i class="fas"> <img
+										th:src="@{/Images/icons8_People_50px.png}" alt="" srcset="">
+									</i>
+								</div>
+								<!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+							</div>
+						</div>
+						<!-- ./col -->
+						<div class="col-lg-3 col-6">
+							<!-- small box -->
+							<div class="small-box"
+								style="background-color: white; border-bottom: 8px solid #ffcd3d; border-top: 2px solid #ffcd3d; display: grid; grid-template-columns: 2fr 1fr; align-items: center;">
+								<div class="inner">
+
+									<h1
+										style="color: black; font-size: 50px;">30</h1>
+
+									<p>
+									<h5 class="text-warning">Issued Books</h5>
+									</p>
+								</div>
+								<div class="icon">
+									<i class="fas"> <img
+										th:src="@{/Images/icons8_Sell_50px.png}" alt="" srcset="">
+									</i>
+								</div>
+								<!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+							</div>
+						</div>
+						<!-- ./col -->
+						<div class="col-lg-3 col-6">
+							<!-- small box -->
+							<div class="small-box"
+								style="background-color: white; border-bottom: 8px solid red; border-top: 2px solid red; display: grid; grid-template-columns: 2fr 1fr; align-items: center;">
+								<div class="inner">
+									<h1
+										style="color: red; font-size: 50px;">8</h1>
+
+									<p>
+									<h5 class="text-danger">Defaulter List</h5>
+									</p>
+								</div>
+								<div class="icon">
+									<i class="fas"> <img
+										th:src="@{/Images/icons8_List_of_Thumbnails_50px.png}" alt=""
+										srcset="">
+									</i>
+								</div>
+								<!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
+							</div>
+						</div>
+						<!-- ./col -->
+					</div>
+					<!-- /.row -->
+
+					<!-- /.row -->
+					
+
+					<h5 class="text-primary"
+						style="margin-bottom: -45px; text-align: center">Student
+						Details</h5>
+					
+					
+					<h5 class="text-primary"
+						style="margin-bottom: -45px; text-align: center">Book Details</h5>
+					
+
+					
+<h5 class="text-primary"
+						style="margin-bottom: 25px; text-align: center">Gender Distribution</h5>
+					<div class="col-md-8  px-5" style = "margin:auto">
+						
+							    <canvas id="gender-chart"></canvas>
+
+					</div>
+
+
+				</div>
+				<!-- /.container-fluid -->
+
+			</section>
+
+			<div class="modal fade" id="end_session" tabindex="-1" role="dialog"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<form method="POST" th:action="@{/logout}">
+							<div class="modal-body text-center text-dark">
+								<img th:src="@{/Images/icons8-male-user-50.png}" alt=""
+									style="width: 24px; height: 24px"><br>
+								<h4>Leaving so soon</h4>
+								<p>Have you finished exploring the system?</p>
+								<button type="button" class="text-center btn btn-success"
+									data-dismiss="modal">No, I'm still exploring</button>
+								<span sec:authorize="isAuthenticated"><button
+										type="submit" value="Yes, I`d like to leave"
+										class="text-center btn btn-danger">Yes, I`d like to
+										leave</button></span>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+
+		</div>
 </section>
+</body>
 </body>
 </html>

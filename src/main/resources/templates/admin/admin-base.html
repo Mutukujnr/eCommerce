@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+	th:fragment="layout(content)">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>AdminLTE 3 | Fixed Navbar Layout</title>
+<!-- Tell the browser to be responsive to screen width -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Font Awesome -->
+<link rel="stylesheet"
+	th:href="@{/CSS/fontawesome.css}">
+<!-- Ionicons -->
+<link rel="stylesheet"
+	href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" th:href="@{/CSS/adminlte.min.css}">
+<!-- Google Font: Source Sans Pro -->
+<link rel="stylesheet" th:href="@{/CSS/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/CSS/style.css}">
+<link
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
+	rel="stylesheet">
+</head>
+
+<body class="hold-transition sidebar-mini layout-fixed">
+	<div class="wrapper">
+		<!-- Navbar -->
+		<nav class="main-header navbar navbar-expand"
+			style="height: 60px; background-color: #124491;">
+			<!-- Left navbar links -->
+			<ul class="navbar-nav">
+				<li class="nav-item"><a class="nav-link" data-widget="pushmenu"
+					href="#"><i class="fas fa-bars" style="color: aliceblue"></i></a></li>
+				<li class="nav-item d-none d-sm-inline-block"><a
+					th:href="@{/home}" class="nav-link" style="color: aliceblue">Home</a></li>
+			</ul>
+
+			<!-- Right navbar links -->
+			<ul class="navbar-nav ml-auto">
+
+				<li class="nav-item dropdown">
+					<div class="dropdown ">
+						<a href="javascript:void(0)" class="chip ml-3 nav-link"
+							data-toggle="dropdown"
+							style="display: flex; align-items: center;"> <span
+							class="account-user-avatar"> <i class="nav-icon"> <img
+									th:src="@{/Images/no-profile.png}"
+									style="width: 40px; height: 40px; border-radius: 50%" alt=""
+									srcset="">
+							</i>
+						</span> <span
+							style="color: gold; font-weight: bold; margin-left: 8px;">
+						</span></a>
+						<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+							<a class="dropdown-item" href="page-profile.html"> <i
+								class="dropdown-icon fe fe-user"> <img
+									th:src="@{/Images/icons8-male-user-50.png}" alt=""
+									style="width: 24px; height: 24px">
+							</i> Profile
+							</a> <a class="dropdown-item" href="javascript:void(0)"> <i
+								class="dropdown-icon fe fe-help-circle"> <img
+									th:src="@{/Images/icons8-help-24.png}" alt="">
+							</i> Need help?
+							</a> <button class="dropdown-item"   data-toggle="modal" data-target="#end_session"><i
+								class="nav-icon"> <img
+									th:src="@{/Images/icons8-logout-48.png}" alt="" srcset=""
+									style="width: 30px; height: 30px">
+							</i> Log out</button>   
+							
+							
+
+						</div>
+					</div>
+				</li>
+
+			</ul>
+		</nav>
+		<!-- /.navbar -->
+
+		<!-- Main Sidebar Container -->
+		<aside class="main-sidebar sidebar-dark-primary elevation-4"
+			style="background-color: #124491;">
+			<!-- Brand Logo -->
+			<a th:href="@{/home}" class="brand-link"> <!-- <img src="../public/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
+				<h5 class="brand-text font-weight-normal text-yellow">
+					eCommerce</h5>
+			</a>
+
+			<!-- Sidebar -->
+			<div class="sidebar">
+				<!-- Sidebar user panel (optional) -->
+
+
+				<!-- Sidebar Menu -->
+				<nav class="mt-2">
+					<ul class="nav nav-pills nav-sidebar flex-column"
+						data-widget="treeview" role="menu" data-accordion="false"
+						style="height: 85vh; display: grid; grid-template-columns: auto; justify-content: space-between;">
+						<!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+						<li class="nav-item has-treeview menu-open"><a
+							th:href="@{/home}" class="nav-link"> <i class="nav-icon">
+									<img th:src="@{/Images/icons8_Library_26px_1.png}" alt=""
+									srcset="">
+							</i>
+								<p>Dashboard</p>
+						</a></li>
+						<li class="nav-item"><a th:href="@{/admin/add-product}" class="nav-link">
+								<i class="fa-solid fa-square-plus fa-2x"></i>
+							
+								<p>Add Product</p>
+						</a></li>
+						<li class="nav-item has-treeview menu-open"><a
+							th:href="@{/admin/category}" class="nav-link"> <i class="nav-icon">
+									<img th:src="@{/Images/icons8-category-30.png}" alt=""
+									srcset="">
+							</i>
+								<p>Category</p>
+						</a></li>
+						<li class="nav-item has-treeview"><a
+							th:href="@{/issueBookForm}" class="nav-link"> <!-- <i class="far fa-user-graduate"></i> -->
+								<i class="nav-icon"> <img
+									th:src="@{/Images/icons8_Sell_26px.png}" alt="" srcset="">
+							</i>
+								<p>View Products</p>
+						</a></li>
+						<li class="nav-item has-treeview"><a
+							th:href="@{/issuedBooks}" class="nav-link"> <!-- <i class="far fa-user-graduate"></i> -->
+								<i class="nav-icon"> <img
+									th:src="@{/Images/icons8_Return_Purchase_26px.png}" alt=""
+									srcset="">
+							</i>
+								<p>Orders</p>
+						</a></li>
+
+						<li class="nav-item has-treeview"><a
+							th:href="@{/issued-books}" class="nav-link"> <!-- <i class="far fa-user-graduate"></i> -->
+								<i class="nav-icon"> <img
+									th:src="@{/Images/icons8_Books_26px.png}" alt="" srcset="">
+							</i>
+								<p>Users</p>
+						</a></li>
+						<li class="nav-item has-treeview"><a th:href="@{/defaulters}"
+							class="nav-link"> <i class="nav-icon"> <img
+									th:src="@{/Images/icons8_Conference_26px.png}" alt="" srcset="">
+							</i>
+								<p>Admins</p>
+						</a></li>
+
+					</ul>
+				</nav>
+				<!-- /.sidebar-menu -->
+			</div>
+			<!-- /.sidebar -->
+		</aside>
+		<!-- Content Wrapper. Contains page content -->
+		
+		<div class="modal fade" id="edit-category">
+			<div class="modal-dialog modal-xl modal-dialog-scrollable">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title"></h4>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="card">
+							<h4 class="text-primary" style="text-align: center;">Edit
+								Category</h4>
+							<div class="card-body">
+
+								<form action="https://adminlte.io/themes/v3/index3.html"
+									method="post">
+									<div class="mb-3">
+										<label>Enter Title</label> <input type="text"
+											class="form-control" placeholder="Enter Title">
+
+									</div>
+									<div class="mb-3">
+										<label>Enter Description</label>
+										<textarea rows="3" cols="" class="form-control"
+											placeholder="Enter Title"></textarea>
+
+									</div>
+									<div class="mb-3">
+										<label>Enter Description</label> <select class="form-control">
+											<option>--select--</option>
+											<option>Electronics</option>
+										</select>
+
+									</div>
+									<div class="mb-3">
+										<label>Price</label> <input type="text" class="form-control"
+											placeholder="Enter Title">
+
+									</div>
+									<div class="row">
+										<div class="col mb-3">
+											<label>Enter stock</label> <input type="text"
+												class="form-control" placeholder="Enter Title">
+
+										</div>
+										<div class="col mb-3">
+											<label>Upload Image</label> <input type="file"
+												class="form-control" placeholder="Enter Title">
+
+										</div>
+									</div>
+
+
+
+									<div class="col-12">
+										<button type="submit" class="btn btn-primary btn-block">Sign
+											In</button>
+									</div>
+
+								</form>
+							</div>
+						</div>
+					</div>
+</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+
+
+		<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+		<script th:src="@{/js/ajax.js}"></script>
+		<!-- Bootstrap 4 -->
+
+
+		<script th:src="@{/js/jquery.js}
+"></script>
+
+		<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+		<!-- AdminLTE App -->
+		
+<script th:src="@{/js/barChart.js}"></script>
+<script th:src="@{/js/Chart.js}"></script>
+		<!-- SweetAlert2 -->
+		<script th:src="@{/plugins/sweetalert2/sweetalert2.min.js}"></script>
+	
+		
+		<script th:src="@{/plugins/daterangepicker/daterangepicker.js}"></script>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.js" integrity="sha384-YwCdhNQ2IwiYajqT/nGCj0FiU5SR4oIkzYP3ffzNWtu39GKBddP0M0waDU7Zwco0" crossorigin="anonymous"></script>
+	
+		<script th:src="@{/plugins/datatables/jquery.dataTables.min.js}"></script>
+		<script
+			th:src="@{/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js}"></script>
+		<script
+			th:src="@{/plugins/datatables-responsive/js/dataTables.responsive.min.js}"></script>
+		<script
+			th:src="@{/plugins/datatables-responsive/js/responsive.bootstrap4.min.js}"></script>
+		<script
+			th:src="@{/plugins/datatables-buttons/js/dataTables.buttons.min.js}"></script>
+		<script
+			th:src="@{/plugins/datatables-buttons/js/buttons.bootstrap4.min.js}"></script>
+		<script th:src="@{/plugins/jszip/jszip.min.js}"></script>
+		<script th:src="@{/plugins/pdfmake/pdfmake.min.js}"></script>
+		<script th:src="@{/plugins/pdfmake/vfs_fonts.js}"></script>
+		<script
+			th:src="@{/plugins/datatables-buttons/js/buttons.html5.min.js}"></script>
+		<script
+			th:src="@{/plugins/datatables-buttons/js/buttons.print.min.js}"></script>
+		
+		
+
+		<script>
+			var myDiv = document.getElementById('myDiv');
+
+			setTimeout(function() {
+				myDiv.style.display = 'none';
+			}, 4000);
+		</script>
+
+		<script>
+			$(function() {
+				$("#example1").DataTable();
+				
+				 $('#example2').DataTable({
+					"paging" : true,
+					"lengthChange" : true,
+					"searching" : true,
+					"ordering" : true,
+					"info" : true,
+					"autoWidth" : true,
+				}); 
+			});
+		</script>
+
+		<!-- Main Footer -->
+	
+	</div>
+	<script th:src="@{/js/main.js}"></script>
+	
+	<script th:src="@{/js/demo.js}"></script>
+	 <script th:src="@{/lib/easing/easing.min.js}"></script>
+    <script th:src="@{/lib/waypoints/waypoints.min.js}"></script>
+    <script th:src="@{/lib/lightbox/js/lightbox.min.js}"></script>
+    <script th:src="@{/lib/owlcarousel/owl.carousel.min.js}"></script>
+    
+    <script th:src="@{/js/jquery.js}"></script>
+    <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+	<!-- jQuery -->
+	<script th:src="@{/plugins/jquery/jquery.min.js}"></script>
+	<!-- Bootstrap 4 -->
+	<script th:src="@{/plugins/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<!-- AdminLTE App -->
+	<script th:src="@{/js/adminlte.min.js}"></script>
+	<!-- AdminLTE for demo purposes -->
+	<!-- jquery-validation -->
+<script th:src="@{/plugins/jquery-validation/jquery.validate.min.js}"></script>
+<script th:src="@{/plugins/jquery-validation/additional-methods.min.js}"></script>
+
+
+
+	<div th:replace="${content}"></div>
+
+</body>
+</html>

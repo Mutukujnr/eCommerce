@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+	th:replace="~{admin/admin-base::layout(~{::section})}">
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+	<section class="container-fluid">
+		<div class="wrapper">
+			<div class="content-wrapper ">
+
+				<div class="container-fluid">
+				<div class="card">
+					
+					<div class="card-body table-responsive p-0">
+
+									<table
+										class="table table-hover table-sm text-nowrap table-head-fixed table-bordered">
+
+
+
+
+										<thead class="thead-light">
+											<tr>
+												
+												<th>P/NO.</th>
+												<th>Title</th>
+												<th>Description</th>
+												<th>Category</th>
+												<th>Price</th>
+												<th>Stock</th>
+												<th>Image</th>
+												
+												<th colspan="2">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="prd, p: ${products}">
+												<td>[[${p.count}]]</td>
+												<td>[[${prd.title}]]</td>
+												<td>[[${prd.description}]]</td>
+												<td>[[${prd.category}]]</td>
+												<td>[[${prd.price}]]</td>
+												<td>[[${prd.stock}]]</td>
+												<td><img
+												th:src="@{'/Images/Products/'+${prd.image}}"
+												width="100px" height="80px"></td>
+												
+												<td><a th:href="@{/admin/editProduct/{id}(id = ${prd.id})}" class="btn btn-primary">
+														Edit</a></td>
+												<td><a th:href="@{/admin/deleteProduct/{id}(id = ${prd.id})}" class="btn btn-danger">
+														Delete</a></td>
+
+												<!-- <a  th:href="@{/deleteBook/{id}(id = ${book.book_id})}" class='btn btn-danger '>
+														Delete</a> -->
+											</tr>
+
+										</tbody>
+									</table>
+									
+									
+
+								</div>
+</div>
+
+				</div>
+				<!-- /content wrapper -->
+			</div>
+		</div>
+
+	</section>
+</body>
+</html>

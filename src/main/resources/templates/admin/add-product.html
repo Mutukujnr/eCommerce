@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+	th:replace="~{admin/admin-base::layout(~{::section})}">
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+</head>
+<body class="authentication-bg position-relative">
+	<section class="container-fluid">
+		<div class="wrapper">
+			<div class="content-wrapper">
+				<!-- /.login-logo -->
+				<div class="card col-lg-7 mx-auto">
+					<div class="card-body">
+						<div class="card-header text-center fs-4 mb-5 bg-warning">
+							Add Product
+							<th:block th:if="${session.succMsg}">
+								<p class="text-success fw-bold">[[${session.succMsg}]]</p>
+								<th:block th:text="${@commonServiceImpl.removeSessionStorage()}">
+
+								</th:block>
+							</th:block>
+							<th:block th:if="${session.errMsg}">
+								<p class="text-danger fw-bold">[[${session.errMsg}]]</p>
+								<th:block th:text="${@commonServiceImpl.removeSessionStorage()}">
+
+								</th:block>
+							</th:block>
+
+						</div>
+
+						<form th:action="@{/admin/saveProduct}" method="post"
+							enctype="multipart/form-data">
+							<div class="mb-3">
+								<label>Enter Title</label> <input type="text"
+									class="form-control" placeholder="Enter Title" name="title">
+
+							</div>
+							<div class="mb-3">
+								<label>Enter Description</label>
+								<textarea rows="3" cols="" class="form-control"
+									placeholder="Enter Title" name="description"></textarea>
+
+							</div>
+							<div class="mb-3">
+								<label>Chose Category</label> <select class="form-control"
+									name="category">
+									<option>--select--</option>
+									<option th:each="c:${categories}">[[${c.name}]]</option>
+								</select>
+
+							</div>
+							<div class="mb-3">
+								<label>Price</label> <input type="text" class="form-control"
+									placeholder="Enter Price" name="price">
+
+							</div>
+							<div class="row">
+								<div class="col mb-3">
+									<label>Enter stock</label> <input type="number"
+										class="form-control" placeholder="Enter stock" name="stock">
+
+								</div>
+								<div class="col mb-3">
+									<label>Upload Image</label> <input type="file"
+										class="form-control" placeholder="Enter Title" name="file">
+
+								</div>
+							</div>
+
+
+
+							<div class="col-12">
+								<button type="submit" class="btn btn-primary btn-block">Add</button>
+							</div>
+
+						</form>
+
+
+					</div>
+					<!-- /.login-card-body -->
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>
