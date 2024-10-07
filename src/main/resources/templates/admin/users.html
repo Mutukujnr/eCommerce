@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+	th:replace="~{admin/admin-base::layout(~{::section})}">
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+	<section class="container-fluid">
+		<div class="wrapper" >
+			<div class="content-wrapper"  style="background-color:aliceblue" >
+
+				<div class="container p-5">
+				<th:block th:if="${session.succMsg}">
+								<p class="text-success fw-bold text-center">[[${session.succMsg}]]</p>
+								<th:block th:text="${@commonServiceImpl.removeSessionStorage()}">
+
+								</th:block>
+							</th:block>
+							<th:block th:if="${session.errMsg}">
+								<p class="text-danger fw-bold  text-center">[[${session.errMsg}]]</p>
+								<th:block th:text="${@commonServiceImpl.removeSessionStorage()}">
+
+								</th:block>
+							</th:block>
+				<div class="card" >
+					
+					<div class="card-body table-responsive p-0">
+
+									<table
+										class="table table-hover table-sm text-nowrap table-head-fixed table-bordered">
+
+
+
+
+										<thead class="thead-light">
+											<tr>
+												
+												<th>S/NO.</th>
+												<th>Profile Image</th>
+												<th>Name</th>
+												<th>Email</th>
+												<th>Mobile Number</th>
+												<th>Address</th>
+												<th>Account Status</th>
+												
+												
+												
+												<th colspan="2">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr th:each="user, u: ${users}">
+											
+												<td>[[${u.count}]]</td>
+												<td><img
+												th:src="@{'/Images/profile_img/'+${user.profile}}"
+												width="100px" height="80px"></td>
+												<td>[[${user.name}]]</td>
+												<td>[[${user.mobileNumber}]]</td>
+												<td>[[${user.email}]]</td>
+												<td>[[${user.address+' '+ user.city+' '+user.state+' '+user.pinCode}]]</td>
+												<td>[[${user.isEnabled}]]</td>
+												
+												
+												<td><a th:href="@{'/admin/updateStatus?status=true&id='+${user.id}}" class="btn btn-primary">
+														Active</a></td>
+												<td><a th:href="@{'/admin/updateStatus?status=false&id='+${user.id}}" class="btn btn-danger" onClick="return confirm('Are you sure?')">
+														InActivate</a></td>
+
+												<!-- <a  th:href="@{/deleteBook/{id}(id = ${book.book_id})}" class='btn btn-danger '>
+														Delete</a> -->
+											</tr>
+
+										</tbody>
+									</table>
+									
+									
+
+								</div>
+</div>
+
+				</div>
+				<!-- /content wrapper -->
+			</div>
+		</div>
+
+	</section>
+</body>
+</html>

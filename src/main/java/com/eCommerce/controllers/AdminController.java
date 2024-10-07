@@ -267,5 +267,29 @@ public class AdminController {
   
   }
   
+  @GetMapping("/users")
+	public String getAllUsers(Model model) {
+
+		
+		model.addAttribute("users", userService.getUsers("ROLE_USER"));
+		return "admin/users";
+
+	}
+  
+  @GetMapping("/updateStatus")
+	public String updateAccountStatus(@RequestParam Boolean status,@RequestParam Integer id,HttpSession session) {
+
+		
+		Boolean f =userService.updateStatus(status,id);
+		
+		if(f) {
+			session.setAttribute("succMsg", "Account status updated successfully");
+		}else {
+			session.setAttribute("errorMsg", "Error in updating account status");
+		}
+		return "redirect:/admin/users";
+
+	}
+  
   }
  

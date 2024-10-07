@@ -21,7 +21,7 @@
                                         <h3 class="text-primary display-6"><i class="fa fa-shopping-cart" aria-hidden="true"></i>eCommerce</h3>
                                     </div>
                                     
-                                    <div th:if="${param.error}" class="alert alert-danger">Invalid Email and Password
+                                    <div th:if="${param.error}" class="alert alert-danger text-center">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]
                                     </div>
                                      <div th:if="${param.logout}" class="alert alert-success">Logout successful
                                     </div>

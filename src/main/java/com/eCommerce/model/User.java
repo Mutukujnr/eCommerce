@@ -32,12 +32,14 @@ public class User {
 	
 	private String role;
 
+	private Boolean isEnabled;
+	
 	public User() {
 		super();
 	}
 
 	public User(String name, String mobileNumber, String email, String address, String city, String state,
-			String pinCode, String password, String profile,String role) {
+			String pinCode, String password, String profile,String role,Boolean isEnabled) {
 		super();
 		this.name = name;
 		this.mobileNumber = mobileNumber;
@@ -49,7 +51,8 @@ public class User {
 		this.password = password;
 		this.profile = profile;
 		this.setRole(role);
-	}
+		this.isEnabled=isEnabled;	
+		}
 
 	public Integer getId() {
 		return id;
@@ -137,6 +140,14 @@ public class User {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public Boolean getIsEnabled() {
+		return isEnabled;
+	}
+
+	public void setIsEnabled(Boolean isEnabled) {
+		this.isEnabled = isEnabled;
 	}
 	
 	

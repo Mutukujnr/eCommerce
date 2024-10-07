@@ -20,12 +20,12 @@
                     </div>
                     <div class="col-md-12 col-lg-5">
                         <div id="carouselId" class="carousel slide position-relative" data-bs-ride="carousel">
-                            <div class="carousel-inner" role="listbox" th:each="c: ${categories}">
+                            <div class="carousel-inner" role="listbox">
                              <div class="carousel-item active rounded" >
-                                    <img th:src="@{'/Images/category_img/'+${c.imageName}}" class="img-fluid w-100 h-100 bg-secondary rounded" alt="First slide">
-                                    <a href="#" class="btn px-4 py-2 text-white rounded">[[${c.name}]]</a>
+                                    <img th:src="@{/Images/camera}" class="img-fluid w-100 h-100 bg-secondary rounded" alt="First slide">
+                                    <a href="#" class="btn px-4 py-2 text-white rounded"></a>
                                 </div>
-                                  <!-- <div class="carousel-item rounded">
+                                  <div class="carousel-item rounded">
                                     <img th:src="@{/Images/laptop.jpg}" class="img-fluid w-100 h-100  rounded" alt="Second slide">
                                     <a href="#" class="btn px-4 py-2 text-white rounded">Laptops</a>
                                 </div>
@@ -52,7 +52,7 @@
                                 <div class="carousel-item rounded">
                                     <img th:src="@{/Images/hero-img-2.png}" class="img-fluid w-100 h-100 rounded" alt="Ninth slide">
                                     <a href="#" class="btn px-4 py-2 text-white rounded">Vegitables</a>
-                                </div> -->
+                                </div>
                             </div>
                             <button class="carousel-control-prev" type="button" data-bs-target="#carouselId" data-bs-slide="prev">
                                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>

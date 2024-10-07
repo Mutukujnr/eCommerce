@@ -106,9 +106,9 @@ public class HomeController {
 		String profileImage = file.isEmpty()?"default.jpg":file.getOriginalFilename();
 		
 		
-		
+user.setProfile(profileImage);
 		User saveUser = userService.saveUser(user);
-		saveUser.setProfile(profileImage);
+		
 		
 		if(!ObjectUtils.isEmpty(saveUser)) {
 			if (!file.isEmpty()) {
@@ -126,6 +126,7 @@ public class HomeController {
 			    // Now define the full path for the file to be saved
 			    Path path = Paths.get(profileImgPath.toString() + File.separator + file.getOriginalFilename());
 			    
+			    System.out.println(path);
 			    // Copy the uploaded file to the target location
 			    Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 
