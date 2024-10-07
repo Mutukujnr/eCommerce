@@ -3,6 +3,7 @@ package com.eCommerce.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,6 +17,10 @@ public class SecurityConfig {
 	
 	@Autowired
 	AuthenticationSuccessHandler authenticationSuccessHandler;
+	
+	@Autowired
+	@Lazy
+	AuthFailureHandler authFailureHandler;
 
 	@Bean
  PasswordEncoder passwordEncoder() {
@@ -47,6 +52,7 @@ public class SecurityConfig {
     			.requestMatchers("/**").permitAll())
     	.formLogin(form->form.loginPage("/signin")
     			.loginProcessingUrl("/login")
+    			.failureHandler(authFailureHandler)
     			.successHandler(authenticationSuccessHandler)    			)
     	.logout(logout->logout.permitAll());
     	

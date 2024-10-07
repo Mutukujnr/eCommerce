@@ -15,4 +15,12 @@ public interface UserService {
 	
 
 	Boolean updateStatus(Boolean status, Integer id);
+	
+	public void increaseFailAttempts(User user);
+	
+	public void userAccountLock(User user);
+	
+	public boolean unlockTimeExpired(User user);
+	
+	public void resetAttempts(Integer userId);
 }

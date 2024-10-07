@@ -1,5 +1,7 @@
 package com.eCommerce.model;
 
+import java.sql.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,12 +36,49 @@ public class User {
 
 	private Boolean isEnabled;
 	
+	//Account lock
+	
+	private Boolean accountNonLocked;
+	
+private Integer failAttempts;
+	
+	private Date lockTime;
+	
+	public Boolean getAccountNonLocked() {
+		return accountNonLocked;
+	}
+
+	public void setAccountNonLocked(Boolean accountNonLocked) {
+		this.accountNonLocked = accountNonLocked;
+	}
+
+	public Integer getFailAttempts() {
+		return failAttempts;
+	}
+
+	public void setFailAttempts(Integer failAttempts) {
+		this.failAttempts = failAttempts;
+	}
+
+	public Date getLockTime() {
+		return lockTime;
+	}
+
+	public void setLockTime(Date lockTime) {
+		this.lockTime = lockTime;
+	}
+
+	
+	
 	public User() {
 		super();
 	}
 
+	
+
 	public User(String name, String mobileNumber, String email, String address, String city, String state,
-			String pinCode, String password, String profile,String role,Boolean isEnabled) {
+			String pinCode, String password, String profile, String role, Boolean isEnabled, Boolean accountNonLocked,
+			Integer failAttempts, Date lockTime) {
 		super();
 		this.name = name;
 		this.mobileNumber = mobileNumber;
@@ -50,9 +89,12 @@ public class User {
 		this.pinCode = pinCode;
 		this.password = password;
 		this.profile = profile;
-		this.setRole(role);
-		this.isEnabled=isEnabled;	
-		}
+		this.role = role;
+		this.isEnabled = isEnabled;
+		this.accountNonLocked = accountNonLocked;
+		this.failAttempts = failAttempts;
+		this.lockTime = lockTime;
+	}
 
 	public Integer getId() {
 		return id;
