@@ -20,6 +20,12 @@
                                     <div class="auth-brand p-4">
                                         <h3 class="text-primary display-6"><i class="fa fa-shopping-cart" aria-hidden="true"></i>eCommerce</h3>
                                     </div>
+                                    
+                                    <div th:if="${param.error}" class="alert alert-danger">Invalid Email and Password
+                                    </div>
+                                     <div th:if="${param.logout}" class="alert alert-success">Logout successful
+                                    </div>
+                                    
                                     <div class="p-4 my-auto">
                                         <h4 class="fs-20">Sign In</h4>
                                        <!--  <p class="text-muted mb-3">Enter your email address and password to access
@@ -27,10 +33,10 @@
                                         </p> -->
 
                                         <!-- form -->
-                                        <form action="#">
+                                        <form th:action="@{/login}" method="post">
                                             <div class="mb-3">
                                                 <label for="emailaddress" class="form-label">Email address</label>
-                                                <input class="form-control" type="email" id="emailaddress" required=""
+                                                <input class="form-control" type="email" name="username" id="emailaddress" required=""
                                                     placeholder="Enter your email">
                                             </div>
                                             <div class="mb-3">
@@ -38,7 +44,7 @@
                                                         your
                                                         password?</small></a>
                                                 <label for="password" class="form-label">Password</label>
-                                                <input class="form-control" type="password" required="" id="password"
+                                                <input class="form-control" type="password" name="password" required="" id="password"
                                                     placeholder="Enter your password">
                                             </div>
                                             <div class="mb-3">

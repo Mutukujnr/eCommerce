@@ -8,8 +8,9 @@
 <body>
 	<section class="container-fluid">
 		<!-- Hero Start -->
-		<div class="container-fluid py-5 mb-5 hero-header">
-			<div class="container py-5">
+		<div class="container-fluid py-5 mb-5 hero-header"
+			style="background-color: aliceblue">
+			<div class="container">
 				<div class="row g-5 align-items-center">
 					<div class="col-md-8 offset-md-2">
 
@@ -34,243 +35,90 @@
 			<div class="row">
 				<div class="col-md-2 ">
 					<div class="card">
-					<div class="card-body shadow-sm p-3 mb-5 bg-body-tertiary">
-						<div class="list-group">
-							<a href="#" class="list-group-item list-group-item-action active"
-								aria-current="true"><i class="ri-drive-line me-1"></i>
-								Categories</a> <a href="#"
-								class="list-group-item list-group-item-action"><i
-								class="ri-drive-line me-1"></i> Electronics</a> <a href="#"
-								class="list-group-item list-group-item-action"><i
-								class="ri-drive-line me-1"></i>Laptops</a> <a href="#"
-								class="list-group-item list-group-item-action"><i
-								class="ri-drive-line me-1"></i> Mobile Phones</a> <a href="#"
-								class="list-group-item list-group-item-action"><i
-								class="ri-drive-line me-1"></i> Men Wear</a> <a href="#"
-								class="list-group-item list-group-item-action"><i
-								class="ri-drive-line me-1"></i> Women Wear</a> <a href="#"
-								class="list-group-item list-group-item-action"><i
-								class="ri-drive-line me-1"></i> Books</a> <a href="#"
-								class="list-group-item list-group-item-action"><i
-								class="ri-drive-line me-1"></i> Fruits</a> <a href="#"
-								class="list-group-item list-group-item-action"><i
-								class="ri-drive-line me-1"></i> Vegetables</a>
+						<div class="card-body shadow-sm p-3 mb-5 bg-body-tertiary">
+							<div class="list-group">
+								<h3 class="mb-2 text-primary text-center">Categories</h3>
+								<a th:href="@{/products}"
+									th:classappend="${paramValue == ' '} ? 'active' : ' ' "
+									class="list-group-item list-group-item-action"
+									aria-current="true"><i class="ri-drive-line me-1"></i> All</a>
+
+								<a th:each="cat: ${categories}"
+									th:href="@{'/products?category='+${cat.name}}"
+									th:classappend="${paramValue == cat.name} ? 'active' : ''"
+									class="list-group-item list-group-item-action"><i
+									class="ri-drive-line me-1"></i> [[${cat.name}]]</a>
+							</div>
 						</div>
 					</div>
 				</div>
-				</div>
 				<div class="col-md-10">
+					<div class="card">
+						<div class="card-body shadow-sm p-3 mb-5 bg-body-tertiary">
 
-					<h3 class="mb-2 text-primary text-center">Products</h3>
-					<div class="container-fluid fruite py-5">
-						<div class="container py-5">
-							<div class="tab-class text-center">
+							<h3 class="mb-2 text-primary text-center">Products</h3>
+							<div class="container-fluid fruite py-5">
+								<div class="container py-5">
+									<div class="tab-class text-center">
 
-								<div class="tab-content">
-									<div id="tab-1" class="tab-pane fade show p-0 active">
-										<div class="row g-4">
-											<div class="col-lg-12">
+										<div class="tab-content">
+											<div id="tab-1" class="tab-pane fade show p-0 active">
 												<div class="row g-4">
-													<div class="col-md-6 col-lg-4 col-xl-3">
-														<div class="rounded position-relative fruite-item">
-															<div class="fruite-img">
-																<img th:src="@{/Images/prod-2.jpg}"
-																	class="img-fluid w-100 rounded-top" alt="">
-															</div>
-															<div
-																class="text-white bg-secondary px-3 py-1 rounded position-absolute"
-																style="top: 10px; left: 10px;">Men Wear</div>
-															<div
-																class="p-4 border border-secondary border-top-0 rounded-bottom">
-																<h4>Shoe</h4>
+													<div class="col-lg-12">
+														<div class="row g-4">
 
-																<div class="d-flex justify-content-between flex-lg-wrap">
-																	<p class="text-dark fs-5 fw-bold mb-0">ksh.3000</p>
-																	<span class="fs-6 text-success">20% off</span> <a
-																		th:href="@{/view-product}"
-																		class="btn border border-secondary rounded-pill px-3 text-primary"><i
-																		class="fa fa-shopping-bag me-2 text-primary"></i> View
-																		Details</a>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div class="col-md-6 col-lg-4 col-xl-3">
-														<div class="rounded position-relative fruite-item">
-															<div class="fruite-img">
-																<img th:src="@{/Images/camera-2.png}"
-																	class="img-fluid w-100 rounded-top" alt="">
-															</div>
-															<div
-																class="text-white bg-secondary px-3 py-1 rounded position-absolute"
-																style="top: 10px; left: 10px;">Camera 2</div>
-															<div
-																class="p-4 border border-secondary border-top-0 rounded-bottom">
-																<h4>Camera</h4>
+															<th:block th:if="${products.size>0}">
 
-																<div class="d-flex justify-content-between flex-lg-wrap">
-																	<p class="text-dark fs-5 fw-bold mb-0">ksh 30,000</p>
-																	<span class="fs-6 text-success">20% off</span> <a
-																	th:href="@{/view-product}"
-																		class="btn border border-secondary rounded-pill px-3 text-primary"><i
-																		class="fa fa-shopping-bag me-2 text-primary"></i> View
-																		Details</a>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div class="col-md-6 col-lg-4 col-xl-3">
-														<div class="rounded position-relative fruite-item">
-															<div class="fruite-img">
-																<img th:src="@{/Images/camera-4.jpg}"
-																	class="img-fluid w-100 rounded-top" alt="">
-															</div>
-															<div
-																class="text-white bg-secondary px-3 py-1 rounded position-absolute"
-																style="top: 10px; left: 10px;">Camera 4</div>
-															<div
-																class="p-4 border border-secondary border-top-0 rounded-bottom">
-																<h4>Camera</h4>
 
-																<div class="d-flex justify-content-between flex-lg-wrap">
-																	<p class="text-dark fs-5 fw-bold mb-0">ksh 40,000</p>
-																	<span class="fs-6 text-success">20% off</span> <a
-																		th:href="@{/view-product}"
-																		class="btn border border-secondary rounded-pill px-3 text-primary"><i
-																		class="fa fa-shopping-bag me-2 text-primary"></i> View
-																		Details</a>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div class="col-md-6 col-lg-4 col-xl-3">
-														<div class="rounded position-relative fruite-item">
-															<div class="fruite-img">
-																<img th:src="@{/Images/mouse-2.png}"
-																	class="img-fluid w-100 rounded-top" alt="">
-															</div>
-															<div
-																class="text-white bg-secondary px-3 py-1 rounded position-absolute"
-																style="top: 10px; left: 10px;">Blue Mouse</div>
-															<div
-																class="p-4 border border-secondary border-top-0 rounded-bottom">
-																<h4>Mouse</h4>
 
-																<div class="d-flex justify-content-between flex-lg-wrap">
-																	<p class="text-dark fs-5 fw-bold mb-0">ksh 1000</p>
-																	<span class="fs-6 text-success">20% off</span> <a
-																	th:href="@{/view-product}"
-																		class="btn border border-secondary rounded-pill px-3 text-primary"><i
-																		class="fa fa-shopping-bag me-2 text-primary"></i> View
-																		Details</a>
+																<div class="col-md-6 col-lg-4 col-xl-3"
+																	th:each="p: ${products}">
+																	<div class="rounded position-relative fruite-item">
+																		<div class="fruite-img">
+																			<img th:src="@{'/Images/products/'+${p.image}}"
+																				class="img-fluid w-100 rounded-top" alt=""
+																				height="90px">
+																		</div>
+																		<div
+																			class="text-white bg-secondary px-3 py-1 rounded position-absolute"
+																			style="top: 10px; left: 10px;">[[${p.title}]]</div>
+																		<div
+																			class="p-4 border border-secondary border-top-0 rounded-bottom">
+																			<h4>[[${p.title}]]</h4>
+																			<span class="fw-bold text-dark">ksh.[[${p.discountPrice}]]</span><br>
+																			<div
+																				class="d-flex justify-content-between flex-lg-wrap">
+																				<p class="text-dark fs-5 mb-0">
+																					<span class="text-decoration-line-through"
+																						style="color: gray">ksh.[[${p.price}]]</span>
+																				</p>
+																				<span class="fs-6 text-success fw-bold">[[${p.discount}]]%
+																					off</span> <a th:href="@{'/view-product/'+${p.id}}"
+																					class="btn border border-secondary rounded-pill px-3 text-primary"><i
+																					class="fa fa-shopping-bag me-2 text-primary"></i>
+																					View Details</a>
+																			</div>
+																		</div>
+																	</div>
 																</div>
-															</div>
-														</div>
-													</div>
-													<div class="col-md-6 col-lg-4 col-xl-3">
-														<div class="rounded position-relative fruite-item">
-															<div class="fruite-img">
-																<img th:src="@{/Images/mouse-1.jpg}"
-																	class="img-fluid w-100 rounded-top" alt="">
-															</div>
-															<div
-																class="text-white bg-secondary px-3 py-1 rounded position-absolute"
-																style="top: 10px; left: 10px;">Red Mouse</div>
-															<div
-																class="p-4 border border-secondary border-top-0 rounded-bottom">
-																<h4>Mouse</h4>
+															</th:block>
+															<th:block th:unless="${products.size>0}">
+																<p class="fs-4 text-center mt-4 text-danger">Product
+																	not available</p>
+															</th:block>
 
-																<div class="d-flex justify-content-between flex-lg-wrap">
-																	<p class="text-dark fs-5 fw-bold mb-0">ksh 900</p>
-																	<span class="fs-6 text-success">20% off</span> <a
-																		href="#"
-																		class="btn border border-secondary rounded-pill px-3 text-primary"><i
-																		class="fa fa-shopping-bag me-2 text-primary"></i> View
-																		Details</a>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div class="col-md-6 col-lg-4 col-xl-3">
-														<div class="rounded position-relative fruite-item">
-															<div class="fruite-img">
-																<img th:src="@{/Images/laptop.jpg}"
-																	class="img-fluid w-100 rounded-top" alt="">
-															</div>
-															<div
-																class="text-white bg-secondary px-3 py-1 rounded position-absolute"
-																style="top: 10px; left: 10px;">HP Laptop</div>
-															<div
-																class="p-4 border border-secondary border-top-0 rounded-bottom">
-																<h4>Laptop</h4>
 
-																<div class="d-flex justify-content-between flex-lg-wrap">
-																	<p class="text-dark fs-5 fw-bold mb-0">ksh 30,000</p>
-																	<span class="fs-6 text-success">20% off</span> <a
-																		href="#"
-																		class="btn border border-secondary rounded-pill px-3 text-primary"><i
-																		class="fa fa-shopping-bag me-2 text-primary"></i> View
-																		Details</a>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div class="col-md-6 col-lg-4 col-xl-3">
-														<div class="rounded position-relative fruite-item">
-															<div class="fruite-img">
-																<img th:src="@{/Images/system-1.png}"
-																	class="img-fluid w-100 rounded-top" alt="">
-															</div>
-															<div
-																class="text-white bg-secondary px-3 py-1 rounded position-absolute"
-																style="top: 10px; left: 10px;">Laptops</div>
-															<div
-																class="p-4 border border-secondary border-top-0 rounded-bottom">
-																<h4>Laptop</h4>
 
-																<div class="d-flex justify-content-between flex-lg-wrap">
-																	<p class="text-dark fs-5 fw-bold mb-0">ksh 40,000</p>
-																	<span class="fs-6 text-success">20% off</span> <a
-																		href="#"
-																		class="btn border border-secondary rounded-pill px-3 text-primary"><i
-																		class="fa fa-shopping-bag me-2 text-primary"></i> View
-																		Details</a>
-																</div>
-															</div>
-														</div>
-													</div>
-													<div class="col-md-6 col-lg-4 col-xl-3">
-														<div class="rounded position-relative fruite-item">
-															<div class="fruite-img">
-																<img th:src="@{/Images/prod-6.jpg}"
-																	class="img-fluid w-100 rounded-top" alt="">
-															</div>
-															<div
-																class="text-white bg-secondary px-3 py-1 rounded position-absolute"
-																style="top: 10px; left: 10px;">Leather Shoe</div>
-															<div
-																class="p-4 border border-secondary border-top-0 rounded-bottom">
-																<h4>Shoe</h4>
-
-																<div class="d-flex justify-content-between flex-lg-wrap">
-																	<p class="text-dark fs-5 fw-bold mb-0">ksh 50,000</p>
-																	<span class="fs-6 text-success">20% off</span> <a
-																		href="#"
-																		class="btn border border-secondary rounded-pill px-3 text-primary"><i
-																		class="fa fa-shopping-bag me-2 text-primary"></i> View
-																		Details</a>
-																</div>
-															</div>
 														</div>
 													</div>
 												</div>
 											</div>
+
+
+
+
 										</div>
 									</div>
-
-
-
-
 								</div>
 							</div>
 						</div>

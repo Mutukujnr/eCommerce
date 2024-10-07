@@ -3,6 +3,7 @@ package com.eCommerce.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -25,7 +26,7 @@ public class CategoryServiceImpl implements CategoryService{
 	@Override
 	public List<Category> findAllCategories() {
 	
-		return categoryRepository.findAll();
+		return categoryRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
 	}
 
 	@Override
@@ -51,6 +52,13 @@ public class CategoryServiceImpl implements CategoryService{
 	public Category getCategoryById(int id) {
 		Category category = categoryRepository.findById(id).orElse(null);
 		return category;
+	}
+
+	@Override
+	public List<Category> findAllActiveCategories() {
+		
+		List<Category> categories = categoryRepository.findByIsActiveTrue();
+		return categories;
 	}
 
 }

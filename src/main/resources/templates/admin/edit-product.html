@@ -8,9 +8,9 @@
 <body class="authentication-bg position-relative">
 	<section class="container-fluid">
 		<div class="wrapper">
-			<div class="content-wrapper">
+			<div class="content-wrapper"  style="background-color:aliceblue">
 				<!-- /.login-logo -->
-				<div class="card col-lg-7 mx-auto">
+				<div class="card col-lg-10 mx-auto">
 					<div class="card-body">
 						<div class="card-header text-center fs-4 mb-5 bg-warning">
 							Add Product
@@ -33,10 +33,26 @@
 							enctype="multipart/form-data">
 							 <input type="hidden"
 									 name="id" th:value="${product.id}">
-							<div class="mb-3">
+									 <div class="row">
+							<div class="mb-3 col">
 								<label>Enter Title</label> <input type="text"
 									class="form-control" placeholder="Enter Title" name="title" th:value="${product.title}">
 
+							</div>
+							<div class="mb-3 col">
+							<label>Product status</label>
+										<div class="form-check">
+											<input class="form-check-input" type="radio" name="isActive"
+												th:checked="${product.isActive == true}" value="true"> <label
+												class="form-check-label">Active</label>
+										</div>
+										<div class="form-check">
+											<input class="form-check-input" type="radio" name="isActive" th:checked="${product.isActive == false}"
+												value="false"> <label class="form-check-label">Inactive
+											</label>
+										</div>
+
+									</div>
 							</div>
 							<div class="mb-3">
 								<label>Enter Description</label>
@@ -44,18 +60,38 @@
 									placeholder="Enter Title" name="description" th:value="${product.description}"></textarea>
 
 							</div>
-							<div class="mb-3">
+							<div class="row">
+							<div class="col mb-3">
 								<label>Chose Category</label> <select class="form-control"
-									name="category" th:value="${product.category}">
-									<option>--select--</option>
+									 name="category">
+									<option>[[${product.category}]]</option>
 									<option th:each="c:${categories}">[[${c.name}]]</option>
 								</select>
 
 							</div>
-							<div class="mb-3">
-								<label>Price</label> <input type="text" class="form-control"
-									placeholder="Enter Price" name="price" th:value="${product.price}">
+							<div class="col mb-3">
+								<label>Price</label> <input type="number" class="form-control" th:value="${product.price}"
+									placeholder="Enter Price" name="price"
+									>
 
+							</div>
+							</div>
+							
+							
+							<div class="row">
+							<div class="col mb-3">
+								<label>Discount</label> <input type="number" class="form-control"
+									 name="discount" th:value="${product.discount}">
+									
+									
+
+							</div>
+							<div class="col mb-3">
+								<label>Discount Price</label> <input type="number" class="form-control"
+									 name="discountPrice" th:value="${product.discountPrice}" readonly="readonly"
+									>
+
+							</div>
 							</div>
 							<div class="row">
 								<div class="col mb-3">

@@ -26,12 +26,20 @@ public class Product {
 	private int stock;
 	
 	private String image;
+	
+	private int discount;
+	
+	private Double discountPrice;
+	
+	private Boolean isActive;
 
 	public Product() {
 		super();
 	}
 
-	public Product(String title, String description, String category, Double price, int stock, String image) {
+	
+	public Product(String title, String description, String category, Double price, int stock, String image,
+			int discount, Double discountPrice,Boolean isActive) {
 		super();
 		this.title = title;
 		this.description = description;
@@ -39,7 +47,11 @@ public class Product {
 		this.price = price;
 		this.stock = stock;
 		this.image = image;
+		this.discount = discount;
+		this.discountPrice = discountPrice;
+		this.isActive = isActive;
 	}
+
 
 	public int getId() {
 		return id;
@@ -95,6 +107,32 @@ public class Product {
 
 	public void setImage(String image) {
 		this.image = image;
+	}
+
+	public int getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(int discount) {
+		this.discount = discount;
+	}
+
+	public Double getDiscountPrice() {
+		return discountPrice;
+	}
+
+	public void setDiscountPrice(Double discountPrice) {
+		this.discountPrice = discountPrice;
+	}
+
+
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+
+	public void setIsActive(Boolean isActive) {
+		this.isActive = isActive;
 	}
 	
 	

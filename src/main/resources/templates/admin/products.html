@@ -7,11 +7,23 @@
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 	<section class="container-fluid">
-		<div class="wrapper">
-			<div class="content-wrapper ">
+		<div class="wrapper" >
+			<div class="content-wrapper"  style="background-color:aliceblue" >
 
-				<div class="container-fluid">
-				<div class="card">
+				<div class="container p-5">
+				<th:block th:if="${session.succMsg}">
+								<p class="text-success fw-bold text-center">[[${session.succMsg}]]</p>
+								<th:block th:text="${@commonServiceImpl.removeSessionStorage()}">
+
+								</th:block>
+							</th:block>
+							<th:block th:if="${session.errMsg}">
+								<p class="text-danger fw-bold  text-center">[[${session.errMsg}]]</p>
+								<th:block th:text="${@commonServiceImpl.removeSessionStorage()}">
+
+								</th:block>
+							</th:block>
+				<div class="card" >
 					
 					<div class="card-body table-responsive p-0">
 
@@ -25,31 +37,41 @@
 											<tr>
 												
 												<th>P/NO.</th>
+												<th>Image</th>
 												<th>Title</th>
 												<th>Description</th>
 												<th>Category</th>
 												<th>Price</th>
+												<th>Discount</th>
+												<th>Discount Price</th>
+											
 												<th>Stock</th>
-												<th>Image</th>
+													<th>Status</th>
+												
 												
 												<th colspan="2">Action</th>
 											</tr>
 										</thead>
 										<tbody>
 											<tr th:each="prd, p: ${products}">
+											
 												<td>[[${p.count}]]</td>
+												<td><img
+												th:src="@{'/Images/products_img/'+${prd.image}}"
+												width="100px" height="80px"></td>
 												<td>[[${prd.title}]]</td>
 												<td>[[${prd.description}]]</td>
 												<td>[[${prd.category}]]</td>
 												<td>[[${prd.price}]]</td>
+												<td>[[${prd.discount}]]</td>
+												<td>[[${prd.discountPrice}]]</td>
 												<td>[[${prd.stock}]]</td>
-												<td><img
-												th:src="@{'/Images/Products/'+${prd.image}}"
-												width="100px" height="80px"></td>
+													<td>[[${prd.isActive}]]</td>
+												
 												
 												<td><a th:href="@{/admin/editProduct/{id}(id = ${prd.id})}" class="btn btn-primary">
 														Edit</a></td>
-												<td><a th:href="@{/admin/deleteProduct/{id}(id = ${prd.id})}" class="btn btn-danger">
+												<td><a th:href="@{/admin/deleteProduct/{id}(id = ${prd.id})}" class="btn btn-danger" onClick="return confirm('Are you sure?')">
 														Delete</a></td>
 
 												<!-- <a  th:href="@{/deleteBook/{id}(id = ${book.book_id})}" class='btn btn-danger '>

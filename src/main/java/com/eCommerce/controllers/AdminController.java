@@ -2,10 +2,15 @@ package com.eCommerce.controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.security.Principal;
+import java.util.List;
+
+import javax.swing.plaf.multi.MultiPanelUI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -20,13 +25,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.eCommerce.dto.ProductDTO;
 import com.eCommerce.model.Category;
 import com.eCommerce.model.Product;
+import com.eCommerce.model.User;
 import com.eCommerce.service.CategoryService;
 import com.eCommerce.service.ProductService;
+import com.eCommerce.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
-import jakarta.websocket.server.PathParam;
 
 @Controller
 @RequestMapping("/admin")
@@ -37,6 +44,22 @@ public class AdminController {
 	
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private UserService userService;
+	
+	@ModelAttribute
+	public void getUserDetails(Principal p,Model m) {
+		if(p!=null) {
+			String email = p.getName();
+			User user = userService.findByEmail(email);
+			
+			m.addAttribute("user", user);
+		}
+		
+		List<Category> categories = categoryService.findAllActiveCategories();
+		m.addAttribute("categories", categories);
+	}
 
 	@GetMapping("/")
 	public String index() {
@@ -160,32 +183,41 @@ public class AdminController {
 	}
 	
 	@PostMapping("/saveProduct")
-	public String saveProduct(@ModelAttribute Product product,@RequestParam("file") MultipartFile image,HttpSession session) throws IOException {
+	public String saveProduct(@ModelAttribute Product product,@RequestParam("file") MultipartFile file, HttpSession session) throws IOException {
 
-		String imageName = image!=null ? image.getOriginalFilename() : "default.jpg";
-		product.setImage(imageName);
+		//MultipartFile image = product.getImageFile();
+		String storageFileName = file.isEmpty() ? "default.jpg" :  file.getOriginalFilename();
+		product.setImage(storageFileName);
+		product.setDiscount(0);
+		product.setDiscountPrice(product.getPrice());
 		
-		Boolean existsProduct = productService.existsProduct(product.getTitle());
+		Product saveProduct = productService.saveProduct(product);
 		
-		if (existsProduct) {
-			session.setAttribute("errMsg", "The product already exists");
-		} else {
-			Product saveProduct = productService.saveProduct(product);
 
-			if (ObjectUtils.isEmpty(saveProduct)) {
-				session.setAttribute("errMsg", "Internal server error");
-			}else {
-				
-				File saveFile = new ClassPathResource("static/Images").getFile();
-				Path path = Paths.get(saveFile.getAbsolutePath()+File.separator+"Products"+File.separator+image.getOriginalFilename());
-				
-				
-				Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-				
-				session.setAttribute("succMsg", "product saved successfully");
-			}
+		if (ObjectUtils.isEmpty(saveProduct)) {
+			session.setAttribute("errMsg", "Internal server error");
+		}else {
+			
+			 // Get the static/Images directory
+		    File saveFile = new ClassPathResource("static/Images").getFile();
+		    
+		    // Define the path where the file will be saved (profile_img directory)
+		    Path profileImgPath = Paths.get(saveFile.getAbsolutePath() + File.separator + "products_img");
+		    
+		    // Create the profile_img directory if it doesn't exist
+		    if (!Files.exists(profileImgPath)) {
+		        Files.createDirectories(profileImgPath);
+		    }
+
+		    // Now define the full path for the file to be saved
+		    Path path = Paths.get(profileImgPath.toString() + File.separator + file.getOriginalFilename());
+		    
+		    // Copy the uploaded file to the target location
+		    Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+
+			
+			session.setAttribute("succMsg", "Product saved successfully");
 		}
-		
 		return "redirect:/admin/products";
 
 	}
@@ -213,42 +245,27 @@ public class AdminController {
 		return "admin/edit-product";
 
 	}
+
 	
-	@PostMapping("/updateProduct")
-	public String updateProduct(@ModelAttribute Product product, @RequestParam("file") MultipartFile file,HttpSession session) throws IOException {
 
-		
-		Product existingProduct = productService.getProductById(product.getId());
-		String imageName = file.isEmpty()?existingProduct.getImage():file.getOriginalFilename();
-		
-		if(!ObjectUtils.isEmpty(existingProduct)) {
-			
-			existingProduct.setTitle(product.getTitle());
-			existingProduct.setDescription(product.getDescription());
-			existingProduct.setCategory(product.getCategory());
-			existingProduct.setPrice(product.getPrice());
-			existingProduct.setStock(product.getStock());
-			
-			existingProduct.setImage(imageName);
-		}
-		
-		Product updatedProduct = productService.saveProduct(existingProduct);
-		
-		if(!ObjectUtils.isEmpty(updatedProduct)) {
-			
-			if(!file.isEmpty()) {
-				File saveFile = new ClassPathResource("static/Images").getFile();
-				Path path = Paths.get(saveFile.getAbsolutePath()+File.separator+"Products"+File.separator+file.getOriginalFilename());
-				
-				System.out.println(path);
-				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-			}
-			session.setAttribute("succMsg", "Product updated successfully");
+  @PostMapping("/updateProduct") public String updateProduct(@ModelAttribute
+  Product product, @RequestParam("file") MultipartFile file,HttpSession session)  {
+	  
+	  if(product.getDiscount()<0 || product.getDiscount()>100) {
+		  session.setAttribute("errMsg", "Invalid Discount amount");
+	  }else {
+	  Product updateProduct = productService.updateProduct(product, file);
+	  
+	  if (ObjectUtils.isEmpty(updateProduct)) {
+			session.setAttribute("errMsg", "Internal server error");
 		}else {
-			session.setAttribute("errMsg", "Product update failed");
+			
+			session.setAttribute("succMsg", "Product saved successfully");
 		}
+	  }
 		return "redirect:/admin/products";
-
-	}
-
-}
+  
+  }
+  
+  }
+ 

@@ -8,34 +8,44 @@
 <body>
 	<section class="container-fluid">
 		<!-- Hero Start -->
-		<div class="container-fluid py-5 hero-header">
-			<div class="align-items-center">
+		<div class="container-fluid">
+			<div class="card py-5 hero-header"  style="background-color:aliceblue">
+						<div class="card-body shadow-sm p-3 mb-5 bg-body-tertiary">
 
 				<div class="row container col-lg-8" style="margin:auto">
 					<div class="col-lg-6">
 						<div class="border rounded">
-							<a href="#"> <img th:src="@{/Images/camera-2.png}"
+							<a href="#"> <img th:src="@{'/Images/products_img/'+${product.image}}"
 								class="img-fluid rounded" alt="Image">
 							</a>
 						</div>
 					</div>
 					<div class="col-lg-6">
-						<h4 class="fw-bold mb-3">Camera</h4>
+						<h4 class="fw-bold mb-3">[[${product.category}]]</h4>
 						<p class="mb-3">
-							<span class="fw-bold">Description:</span><br>Camera
+							<span class="fw-bold">[[${product.description}]]</span><br>[[${product.title}]]
 						</p>
 
 						<p>
-							<span class="fw-bold">Product Details:</span><br>Status <span
-								class="badge bg-success">Available:</span> <span
-								class="badge bg-warning">Out of Stock:</span><br>Category:Laptop<br>Policy
+							<span class="fw-bold">Product Details:</span><br>Status 
+							
+							<th:block th:if="${product.stock>0}">
+							<span
+								class="badge bg-success">Available:</span>
+							</th:block>
+							<th:block th:unless="${product.stock>0}">
+							<span
+								class="badge bg-warning">Out of Stock:</span>
+							</th:block>
+							
+							 <br>Category:[[${product.category}]]<br>Policy
 							: 7 days of replacement & return
 						</p>
 
 						<p class="fs-5 fw-bold">
-							Price &nbsp;&nbsp;&nbsp;&nbsp; Ksh 30000 <span
-								class="fs-6  text-decoration-line-through text-secondary">20000:</span>
-							<span class="fs-6 text-success">50% off</span>
+							Price &nbsp;&nbsp;&nbsp;&nbsp; Ksh [[${product.discountPrice}]] <span
+								class="fs-6  text-decoration-line-through text-secondary">[[${product.price}]]</span>
+							<span class="fs-6 text-success">[[${product.discount}]]% off</span>
 						</p>
 
 						<div class="row">
@@ -55,8 +65,14 @@
 
 							</div>
 						</div>
+						<th:block th:if="${product.stock>0}">
+							<a href="" class="btn btn-danger col-md-12">Add to Cart</a>
+							</th:block>
+							<th:block th:unless="${product.stock>0}">
+							<a href="" class="btn btn-warning col-md-12">Out of stock</a>
+							</th:block>
 
-						<a href="" class="btn btn-danger col-md-12">Add to Cart</a>
+						
 
 
 
@@ -70,8 +86,9 @@
 
 				</div>
 			</div>
-
-		</div>
+</div>
+</div>
+	
 
 
 		<!-- Hero End -->
