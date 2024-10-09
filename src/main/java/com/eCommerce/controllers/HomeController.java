@@ -2,15 +2,18 @@ package com.eCommerce.controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
@@ -27,7 +30,10 @@ import com.eCommerce.model.User;
 import com.eCommerce.service.CategoryService;
 import com.eCommerce.service.ProductService;
 import com.eCommerce.service.UserService;
+import com.eCommerce.utils.CommonUtils;
 
+import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 
@@ -43,6 +49,12 @@ public class HomeController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private CommonUtils commonUtils;
+	
+	@Autowired
+	PasswordEncoder encoder;
 	
 	@ModelAttribute
 	public void getUserDetails(Principal p,Model m) {
@@ -105,6 +117,16 @@ public class HomeController {
 		
 		String profileImage = file.isEmpty()?"default.jpg":file.getOriginalFilename();
 		
+		 File saveFile = new ClassPathResource("static/Images").getFile();
+		    
+		    // Define the path where the file will be saved (profile_img directory)
+		    Path profileImgPath = Paths.get(saveFile.getAbsolutePath() + File.separator + "profile_img");
+		    
+		    // Create the profile_img directory if it doesn't exist
+		    if (!Files.exists(profileImgPath)) {
+		        Files.createDirectories(profileImgPath);
+		    }
+
 		
 user.setProfile(profileImage);
 		User saveUser = userService.saveUser(user);
@@ -113,16 +135,7 @@ user.setProfile(profileImage);
 		if(!ObjectUtils.isEmpty(saveUser)) {
 			if (!file.isEmpty()) {
 			    // Get the static/Images directory
-			    File saveFile = new ClassPathResource("static/Images").getFile();
-			    
-			    // Define the path where the file will be saved (profile_img directory)
-			    Path profileImgPath = Paths.get(saveFile.getAbsolutePath() + File.separator + "profile_img");
-			    
-			    // Create the profile_img directory if it doesn't exist
-			    if (!Files.exists(profileImgPath)) {
-			        Files.createDirectories(profileImgPath);
-			    }
-
+			   
 			    // Now define the full path for the file to be saved
 			    Path path = Paths.get(profileImgPath.toString() + File.separator + file.getOriginalFilename());
 			    
@@ -138,5 +151,93 @@ else {
 			}
 		}
 		return "redirect:/register";
+	}
+	
+	
+	//forgot password
+	
+
+	@GetMapping("/forgot-password")
+	public String forgotPasswordPage() {
+		
+		return "forgot-password";
+		
+	}
+	
+	@PostMapping("/forgot-password")
+	public String forgotPassword(@RequestParam String email,HttpSession session,HttpServletRequest request) throws UnsupportedEncodingException, MessagingException {
+		
+		User byEmail = userService.findByEmail(email);
+		
+		if(ObjectUtils.isEmpty(byEmail)) {
+			session.setAttribute("errorMsg", "invalid email");
+		}else {
+			
+			String resetToken = UUID.randomUUID().toString();
+			userService.updateUserResetToken(email, resetToken);
+			
+			String siteUrl = commonUtils.generateURL(request)+"/reset-password?token="+resetToken;
+			
+			Boolean sendEmail = commonUtils.sendEmail(siteUrl,email);
+			
+			if(sendEmail) {
+				session.setAttribute("succMsg", "Password reset link has been send to your email");
+			}else {
+				session.setAttribute("errorMsg", "Error happened");
+			}
+		}
+		
+		return "redirect:/forgot-password";
+		
+	}
+	
+	@GetMapping("/reset-password")
+	public String resetPasswordPage(@RequestParam String token,HttpSession session,Model model) {
+		
+		User user = userService.findUserByResetToken(token);
+		
+		if(ObjectUtils.isEmpty(user)) {
+			model.addAttribute("errorMsg", "Invalid Token");
+			
+			return "error";
+		}else {
+		
+		model.addAttribute("token", token);
+		
+		}
+		return "reset-password";
+		
+	}
+	
+	@PostMapping("/reset-password")
+	public String PasswordPage(@RequestParam String token,@RequestParam String password,@RequestParam String cpassword,HttpSession session,Model model) {
+		
+		User u = userService.findUserByResetToken(token);
+		
+		System.out.println(token);
+		//System.out.println(u);
+		
+		if(ObjectUtils.isEmpty(u)) {
+			model.addAttribute("errorMsg", "Invalid Token");
+			
+			return "error";
+		}else {
+			
+			if(password.equals(cpassword)) {
+				u.setPassword(encoder.encode(password));
+				u.setResetToken(null);
+				
+				userService.saveUser(u);
+				
+				session.setAttribute("succMsg", "You have successfully reset your password");
+			}else {
+				session.setAttribute("errorMsg", "passwords do not match!!!");
+			}
+			
+			
+		}
+		
+		return "redirect:/reset-password";
+		
 	}
 }

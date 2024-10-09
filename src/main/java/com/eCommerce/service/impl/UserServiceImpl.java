@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import com.eCommerce.model.User;
 import com.eCommerce.repository.UserRepository;
@@ -104,6 +105,31 @@ public class UserServiceImpl implements UserService {
 	public void resetAttempts(Integer userId) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void updateUserResetToken(String email, String resetToken) {
+		User byEmail = userRepository.findByEmail(email);
+		
+		if(!ObjectUtils.isEmpty(byEmail)){
+			byEmail.setResetToken(resetToken);
+			
+			userRepository.save(byEmail);
+		}
+		
+	}
+
+	@Override
+	public User findUserByResetToken(String token) {
+		
+		User byToken = userRepository.findByResetToken(token);
+		return byToken;
+	}
+
+	@Override
+	public User updateUser(User user) {
+		
+		return userRepository.save(user);
 	}
 
 }

@@ -44,6 +44,10 @@ private Integer failAttempts;
 	
 	private Date lockTime;
 	
+	//forgot-password
+	
+	private String resetToken;
+	
 	public Boolean getAccountNonLocked() {
 		return accountNonLocked;
 	}
@@ -78,7 +82,7 @@ private Integer failAttempts;
 
 	public User(String name, String mobileNumber, String email, String address, String city, String state,
 			String pinCode, String password, String profile, String role, Boolean isEnabled, Boolean accountNonLocked,
-			Integer failAttempts, Date lockTime) {
+			Integer failAttempts, Date lockTime,String resetToken) {
 		super();
 		this.name = name;
 		this.mobileNumber = mobileNumber;
@@ -94,6 +98,7 @@ private Integer failAttempts;
 		this.accountNonLocked = accountNonLocked;
 		this.failAttempts = failAttempts;
 		this.lockTime = lockTime;
+		this.resetToken=resetToken;
 	}
 
 	public Integer getId() {
@@ -190,6 +195,14 @@ private Integer failAttempts;
 
 	public void setIsEnabled(Boolean isEnabled) {
 		this.isEnabled = isEnabled;
+	}
+
+	public String getResetToken() {
+		return resetToken;
+	}
+
+	public void setResetToken(String resetToken) {
+		this.resetToken = resetToken;
 	}
 	
 	
