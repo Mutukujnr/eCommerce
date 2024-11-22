@@ -3,12 +3,15 @@ package com.eCommerce.controllers;
 import java.security.Principal;
 import java.util.List;
 
+import com.eCommerce.model.Cart;
+import com.eCommerce.model.Product;
+import com.eCommerce.service.CartService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.*;
 
 import com.eCommerce.model.Category;
 import com.eCommerce.model.User;
@@ -29,6 +32,9 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private CartService cartService;
 	
 	
 	@ModelAttribute
@@ -38,6 +44,10 @@ public class UserController {
 			User user = userService.findByEmail(email);
 			
 			m.addAttribute("user", user);
+
+			Integer cartCount = cartService.getCartCount(user.getId());
+
+			m.addAttribute("cartCount", cartCount);
 		}
 		
 		List<Category> categories = categoryService.findAllActiveCategories();
@@ -48,4 +58,63 @@ public class UserController {
 	public String home() {
 		return "user/index";
 	}
+
+
+	@GetMapping("/view-product/{id}")
+	public String productDetails(@PathVariable int id,Model model) {
+
+		Product product =productService.getProductById(id);
+		model.addAttribute("product", product);
+
+		return "view-product";
+
+	}
+
+	@GetMapping("/addToCart")
+	public String addToCartSave(@RequestParam Integer pId, @RequestParam Integer uId, HttpSession session) {
+
+			Cart cart = cartService.saveCart(pId, uId);
+
+			if (ObjectUtils.isEmpty(cart)) {
+				session.setAttribute("errorMsg", "Product adding to cart failed");
+			} else {
+				session.setAttribute("succMsg", "Product added to cart");
+			}
+
+		return "redirect:/view-product/"+pId;
+	}
+
+
+
+    private User getUser(Principal p){
+        String email = p.getName();
+        User user = userService.findByEmail(email);
+
+        return user;
+    }
+
+    @GetMapping("/cart")
+    public String loadCartPage(Principal p, Model m) {
+
+    User user = getUser(p);
+    List<Cart> cartItems = cartService.getCartsByUserId(user.getId());
+    m.addAttribute("cartItems", cartItems);
+
+    if(cartItems.size()>0) {
+        Double totalOrderPrice = cartItems.get(cartItems.size() - 1).getTotalOrderPrice();
+        m.addAttribute("totalOrderPrice", totalOrderPrice);
+    }
+        return "user/cart";
+
+    }
+
+    @GetMapping("/cartQuantityUpdate")
+    public String updateCaertQuantity(@RequestParam String sy, @RequestParam Integer cid) {
+
+    cartService.updateCartQuantity(sy,cid);
+    
+        return "redirect:/user/cart";
+
+    }
+
 }

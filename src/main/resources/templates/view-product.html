@@ -9,8 +9,24 @@
 	<section class="container-fluid">
 		<!-- Hero Start -->
 		<div class="container-fluid">
+
 			<div class="card py-5 hero-header"  style="background-color:aliceblue">
 						<div class="card-body shadow-sm p-3 mb-5 bg-body-tertiary">
+
+							<th:block th:if="${session.succMsg}">
+								<p class="text-success fw-bold text-center alert alert-success">[[${session.succMsg}]]</p>
+								<th:block
+										th:text="${@commonServiceImpl.removeSessionStorage()}">
+
+								</th:block>
+							</th:block>
+							<th:block th:if="${session.errorMsg}">
+								<p class="text-success fw-bold text-center alert alert-danger">[[${session.errorMsg}]]</p>
+								<th:block
+										th:text="${@commonServiceImpl.removeSessionStorage()}">
+
+								</th:block>
+							</th:block>
 
 				<div class="row container col-lg-8" style="margin:auto">
 					<div class="col-lg-6">
@@ -65,9 +81,19 @@
 
 							</div>
 						</div>
-						<th:block th:if="${product.stock>0}">
-							<a href="" class="btn btn-danger col-md-12">Add to Cart</a>
+							<th:block th:if="${product.stock>0}">
+
+								<th:block th:if="${user==null}">
+									<a th:href="@{/signin}" class="btn btn-danger col-md-12">Add to Cart</a>
+								</th:block>
+
+								<th:block th:if="${user!=null}">
+
+									<a th:href="@{'/user/addToCart?pId='+${product.id}+'&uId='+${user.id}}" class="btn btn-danger col-md-12">Add to Cart</a>
+								</th:block>
+
 							</th:block>
+
 							<th:block th:unless="${product.stock>0}">
 							<a href="" class="btn btn-warning col-md-12">Out of stock</a>
 							</th:block>

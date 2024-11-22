@@ -11,6 +11,7 @@ import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
+import com.eCommerce.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -49,9 +50,12 @@ public class HomeController {
 	
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
-	private CommonUtils commonUtils;
+	private CartService cartService;
+	
+	//@Autowired
+	//private CommonUtils commonUtils;
 	
 	@Autowired
 	PasswordEncoder encoder;
@@ -61,8 +65,13 @@ public class HomeController {
 		if(p!=null) {
 			String email = p.getName();
 			User user = userService.findByEmail(email);
-			
+			Integer cartCount = cartService.getCartCount(user.getId());
+
 			m.addAttribute("user", user);
+			m.addAttribute("cartCount", cartCount);
+
+		}else {
+			m.addAttribute("user", null);
 		}
 		
 		List<Category> categories = categoryService.findAllActiveCategories();
@@ -164,80 +173,85 @@ else {
 		
 	}
 	
-	@PostMapping("/forgot-password")
-	public String forgotPassword(@RequestParam String email,HttpSession session,HttpServletRequest request) throws UnsupportedEncodingException, MessagingException {
-		
-		User byEmail = userService.findByEmail(email);
-		
-		if(ObjectUtils.isEmpty(byEmail)) {
-			session.setAttribute("errorMsg", "invalid email");
-		}else {
-			
-			String resetToken = UUID.randomUUID().toString();
-			userService.updateUserResetToken(email, resetToken);
-			
-			String siteUrl = commonUtils.generateURL(request)+"/reset-password?token="+resetToken;
-			
-			Boolean sendEmail = commonUtils.sendEmail(siteUrl,email);
-			
-			if(sendEmail) {
-				session.setAttribute("succMsg", "Password reset link has been send to your email");
-			}else {
-				session.setAttribute("errorMsg", "Error happened");
-			}
-		}
-		
-		return "redirect:/forgot-password";
-		
-	}
+	/*
+	 * @PostMapping("/forgot-password") public String forgotPassword(@RequestParam
+	 * String email,HttpSession session,HttpServletRequest request) throws
+	 * UnsupportedEncodingException, MessagingException {
+	 * 
+	 * User byEmail = userService.findByEmail(email);
+	 * 
+	 * if(ObjectUtils.isEmpty(byEmail)) { session.setAttribute("errorMsg",
+	 * "invalid email"); }else {
+	 * 
+	 * String resetToken = UUID.randomUUID().toString();
+	 * userService.updateUserResetToken(email, resetToken);
+	 * 
+	 * String siteUrl =
+	 * commonUtils.generateURL(request)+"/reset-password?token="+resetToken;
+	 * 
+	 * Boolean sendEmail = commonUtils.sendEmail(siteUrl,email);
+	 * 
+	 * if(sendEmail) { session.setAttribute("succMsg",
+	 * "Password reset link has been send to your email"); }else {
+	 * session.setAttribute("errorMsg", "Error happened"); } }
+	 * 
+	 * return "redirect:/forgot-password";
+	 * 
+	 * }
+	 */
 	
-	@GetMapping("/reset-password")
-	public String resetPasswordPage(@RequestParam String token,HttpSession session,Model model) {
+	/*
+	 * @GetMapping("/reset-password") public String resetPasswordPage(@RequestParam
+	 * String token,HttpSession session,Model model) {
+	 * 
+	 * User user = userService.findUserByResetToken(token);
+	 * 
+	 * if(ObjectUtils.isEmpty(user)) { model.addAttribute("errorMsg",
+	 * "Invalid Token");
+	 * 
+	 * return "error"; }else {
+	 * 
+	 * model.addAttribute("token", token);
+	 * 
+	 * } return "reset-password";
+	 * 
+	 * }
+	 */
+	
+	/*@PostMapping("/reset-password")
+	public String PasswordPage(@RequestParam String token,@RequestParam String password,@RequestParam String cpassword,HttpSession session,Model model) {
 		
 		User user = userService.findUserByResetToken(token);
+		
+		System.out.println(token);
+		
 		
 		if(ObjectUtils.isEmpty(user)) {
 			model.addAttribute("errorMsg", "Invalid Token");
 			
 			return "error";
 		}else {
-		
-		model.addAttribute("token", token);
-		
-		}
-		return "reset-password";
-		
-	}
-	
-	@PostMapping("/reset-password")
-	public String PasswordPage(@RequestParam String token,@RequestParam String password,@RequestParam String cpassword,HttpSession session,Model model) {
-		
-		User u = userService.findUserByResetToken(token);
-		
-		System.out.println(token);
-		//System.out.println(u);
-		
-		if(ObjectUtils.isEmpty(u)) {
-			model.addAttribute("errorMsg", "Invalid Token");
 			
-			return "error";
-		}else {
-			
-			if(password.equals(cpassword)) {
-				u.setPassword(encoder.encode(password));
-				u.setResetToken(null);
+		
+				user.setPassword(encoder.encode(password));
+				user.setResetToken(null);
 				
-				userService.saveUser(u);
+				userService.updateUser(user);
 				
 				session.setAttribute("succMsg", "You have successfully reset your password");
-			}else {
-				session.setAttribute("errorMsg", "passwords do not match!!!");
-			}
+		
 			
-			
+			return "redirect:/reset-password";
 		}
+		*/
 		
-		return "redirect:/reset-password";
-		
-	}
+		/*
+		 * spring.mail.host=smtp.gmail.com spring.mail.port=587
+		 * spring.mail.username=mutukujuniour@gmail.com
+		 * spring.mail.password=lyoycpioliedmvwj
+		 * spring.mail.properties.mail.smtp.auth=true
+		 * spring.mail.properties.mail.smtp.starttls.enable=true
+		 * spring.mail.test-connection=true
+		 */
+	
 }

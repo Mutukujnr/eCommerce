@@ -11,7 +11,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
 
-@Component
+
 public class CommonUtils {
 	
 	@Autowired

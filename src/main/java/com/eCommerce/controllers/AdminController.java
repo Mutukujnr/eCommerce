@@ -12,6 +12,7 @@ import java.util.List;
 
 import javax.swing.plaf.multi.MultiPanelUI;
 
+import com.eCommerce.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
@@ -48,6 +49,9 @@ public class AdminController {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private CartService cartService;
+
 	@ModelAttribute
 	public void getUserDetails(Principal p, Model m) {
 		if (p != null) {
@@ -55,6 +59,10 @@ public class AdminController {
 			User user = userService.findByEmail(email);
 
 			m.addAttribute("user", user);
+
+			Integer cartCount = cartService.getCartCount(user.getId());
+
+			m.addAttribute("cartCount", cartCount);
 		}
 
 		List<Category> categories = categoryService.findAllActiveCategories();

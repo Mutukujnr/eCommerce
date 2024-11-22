@@ -18,6 +18,7 @@
 <!-- Google Font: Source Sans Pro -->
 <link rel="stylesheet" th:href="@{/CSS/bootstrap.min.css}">
 <link rel="stylesheet" th:href="@{/CSS/style.css}">
+    <link rel="stylesheet" th:href="@{/CSS/fontawesome.css}">
 <link
 	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
 	rel="stylesheet">
@@ -76,17 +77,16 @@
                             </th:block>
                              <th:block th:if="${user!=null}">
                             <ul class="navbar-nav ml-auto">
-
+                                <a th:href="@{/user/cart}" class="position-relative me-4 my-auto">
+                                    <i class="fa fa-shopping-bag fa-2x"></i>
+                                    <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">[[${cartCount}]]</span>
+                                </a>
 				<li class="nav-item dropdown">
 					<div class="dropdown ">
 						<a href="javascript:void(0)" class="chip ml-3 nav-link"
 							data-toggle="dropdown"
 							style="display: flex; align-items: center;"> <span
-							class="account-user-avatar"> <i class="fa-solid fa-user"> <!-- <img
-									th:src="@{/Images/no-profile.png}"
-									style="width: 40px; height: 40px; border-radius: 50%" alt=""
-									srcset=""> -->
-							</i>
+							class="account-user-avatar"><i class="fas fa-user fa-2x"></i>
 						</span> <span
 							style="color: gold; font-weight: bold; margin-left: 8px;">[[${user.name}]]
 						</span></a>
