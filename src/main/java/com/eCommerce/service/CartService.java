@@ -11,5 +11,10 @@ public interface CartService {
 
     public Integer getCartCount(Integer userId);
 
-	public void updateCartQuantity(String sy, Integer cid);
+
+	public Cart getCartById(Integer cart);
+
+	void updateCartQuantity(String sy, Integer cid, Integer productId);
+	
+	public List<Cart> checkOutItems(Integer userId);
 }

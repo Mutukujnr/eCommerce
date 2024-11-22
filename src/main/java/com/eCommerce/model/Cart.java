@@ -16,7 +16,7 @@ public class Cart {
 
     private Integer quantity;
 
-    @Transient
+    
     private Double totalPrice;
 
     @Transient
@@ -80,4 +80,12 @@ public class Cart {
     public void setTotalOrderPrice(Double totalOrderPrice) {
         this.totalOrderPrice = totalOrderPrice;
     }
+
+	@Override
+	public String toString() {
+		return "Cart [id=" + id + ", user=" + user + ", product=" + product + ", quantity=" + quantity + ", totalPrice="
+				+ totalPrice + ", totalOrderPrice=" + totalOrderPrice + "]";
+	}
+    
+    
 }

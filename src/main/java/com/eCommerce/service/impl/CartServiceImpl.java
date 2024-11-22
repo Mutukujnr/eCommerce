@@ -43,6 +43,7 @@ public class CartServiceImpl implements  CartService{
             cart.setProduct(product);
             cart.setQuantity(1);
             cart.setTotalPrice(product.getDiscountPrice());
+            
 
         }else{
             cart = cartStatus;
@@ -61,8 +62,8 @@ public class CartServiceImpl implements  CartService{
 
         List<Cart> updatedCart = new ArrayList<>();
         for (Cart c: cartItems){
-           Double totalPrice = (c.getProduct().getDiscountPrice()*c.getQuantity());
-           c.setTotalPrice(totalPrice);
+           Double totalPrice = c.getTotalPrice();
+           
 
            totalOrderPrice+=totalPrice;
            c.setTotalOrderPrice(totalOrderPrice);
@@ -81,10 +82,14 @@ public class CartServiceImpl implements  CartService{
 
 
 	@Override
-	public void updateCartQuantity(String sy, Integer cid) {
+	public void updateCartQuantity(String sy, Integer cid,Integer productId) {
 		Cart cart = cartRepository.findById(cid).get();
+		Product product = productRepository.findById(productId).get();
+		Double price = product.getDiscountPrice();
+		
 		
 		int updateQuantity;
+		
 		
 		if(sy.equalsIgnoreCase("de")) {
 			updateQuantity = cart.getQuantity()-1;
@@ -92,16 +97,43 @@ public class CartServiceImpl implements  CartService{
 			if(updateQuantity <= 0) {
 				cartRepository.delete(cart);
 				
-			}else {
-				cart.setQuantity(updateQuantity);
-				cartRepository.save(cart);
 			}
+				//cart.setQuantity(updateQuantity);
+				cart.setTotalPrice(cart.getTotalPrice()-price);
+				//cartRepository.save(cart);
+			
 		}else {
 			updateQuantity = cart.getQuantity()+1;
+			cart.setTotalPrice(cart.getTotalPrice()+price);
 		}
 		
 		cart.setQuantity(updateQuantity);
 		cartRepository.save(cart);
 		
+	}
+
+
+	@Override
+	public Cart getCartById(Integer cart) {
+		
+		Cart cartId = cartRepository.findById(cart).get();
+		
+		return cartId;
+	
+		
+	}
+
+
+	@Override
+	public List<Cart> checkOutItems(Integer userId) {
+		
+		List<Cart> cart = cartRepository.findByUserId(userId);
+		
+		for(Cart c: cart) {
+			System.out.println(c);
+		
+		}
+		
+		return cart;
 	}
 }

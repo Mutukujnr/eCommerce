@@ -109,11 +109,31 @@ public class UserController {
     }
 
     @GetMapping("/cartQuantityUpdate")
-    public String updateCaertQuantity(@RequestParam String sy, @RequestParam Integer cid) {
+    public String updateCaertQuantity(@RequestParam String sy, @RequestParam Integer cid,@RequestParam Integer product) {
 
-    cartService.updateCartQuantity(sy,cid);
+    cartService.updateCartQuantity(sy,cid,product);
     
         return "redirect:/user/cart";
+
+    }
+    
+    @GetMapping("/checkout")
+    public String checkOutPage(@RequestParam Integer user, Model m,Principal p) {
+
+ 
+    	//User user = getUser(p);
+    	List<Cart> order = cartService.checkOutItems(user);
+    	
+    	Double totalOrderCost = 0.0;
+    	for(Cart c: order) {
+    		totalOrderCost+=c.getTotalPrice();
+    	}
+    	
+    	m.addAttribute("order", order);
+    	m.addAttribute("total", totalOrderCost);
+    	
+    
+        return "user/checkout";
 
     }
 

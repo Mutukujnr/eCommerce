@@ -53,13 +53,13 @@
                         <div class="input-group quantity mt-4" style="width: 100px;">
                             <div class="input-group-btn">
                                 <div class="btn btn-sm btn-minus rounded-circle bg-light border" >
-                                   <a th:href="@{'/user/cartQuantityUpdate?sy=de&cid='+${cart.id}}"> <i class="fa fa-minus"></i></a>
+                                   <a th:href="@{'/user/cartQuantityUpdate?sy=de&cid='+${cart.id}+'&product='+${cart.product.id}}"> <i class="fa fa-minus"></i></a>
                                 </div>
                             </div>
                             <p class="form-control form-control-sm text-center border-0">[[${cart.quantity}]]</p>
                             <div class="input-group-btn">
                                 <div class="btn btn-sm btn-plus rounded-circle bg-light border">
-                                   <a th:href="@{'/user/cartQuantityUpdate?sy=in&cid='+${cart.id}}"> <i class="fa fa-plus"></i></a>
+                                   <a th:href="@{'/user/cartQuantityUpdate?sy=in&cid='+${cart.id}+'&product='+${cart.product.id}}"> <i class="fa fa-plus"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -102,9 +102,9 @@
                     </div>
                     <div class="py-4 mb-4 border-top border-bottom d-flex justify-content-between">
                         <h5 class="mb-0 ps-4 me-4">Total</h5>
-                        <p class="mb-0 pe-4">$99.00</p>
+                        <p class="mb-0 pe-4">ksh [[${totalOrderPrice}]]</p>
                     </div>
-                    <button class="btn border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">Proceed Checkout</button>
+                    <a th:href="@{'/user/checkout?user='+${user.id}}" class="btn btn-warning border-secondary rounded-pill px-4 py-3 text-primary text-uppercase mb-4 ms-4" type="button">Proceed Checkout</a>
                 </div>
             </div>
         </div>
