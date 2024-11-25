@@ -290,5 +290,14 @@ public class AdminController {
 		return "redirect:/admin/users";
 
 	}
+	
+	@GetMapping("/orders")
+	public String getOrders() {
+
+		
+
+		return "/admin/orders";
+
+	}
 
 }

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+	th:fragment="layout(content)">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Track Order</title>
+<!-- Tell the browser to be responsive to screen width -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Font Awesome -->
+<link rel="stylesheet"
+	th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+<!-- Ionicons -->
+<link rel="stylesheet"
+	href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" th:href="@{/CSS/adminlte.min.css}">
+<!-- Google Font: Source Sans Pro -->
+<link rel="stylesheet" th:href="@{/CSS/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/CSS/style.css}">
+    <link rel="stylesheet" th:href="@{/CSS/fontawesome.css}">
+    <link rel="stylesheet" th:href="@{/CSS/trackOrder.css}">
+<link
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
+	rel="stylesheet">
+</head>
+<body>
+<section class="container-fluid py-5">
+
+<section class="h-100 gradient-custom">
+  <div class="container-fluid py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-10 col-xl-10">
+        <div class="card" style="border-radius: 10px;">
+         
+          <div class="card-body p-4 ">
+          <th:block th:if="${session.succMsg}">
+								<p class="text-success fw-bold text-center alert alert-success">[[${session.succMsg}]]</p>
+								<th:block
+										th:text="${@commonServiceImpl.removeSessionStorage()}">
+
+								</th:block>
+							</th:block>
+							<th:block th:if="${session.errorMsg}">
+								<p class="text-success fw-bold text-center alert alert-danger">[[${session.errorMsg}]]</p>
+								<th:block
+										th:text="${@commonServiceImpl.removeSessionStorage()}">
+
+								</th:block>
+							</th:block>
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <p class="lead fw-normal mb-0" style="color: #a8729a;">Receipt</p>
+              <p class="small text-muted mb-0">Receipt Voucher : 1KAU9-84UIL</p>
+            </div>
+            <div class="card shadow-0 border mb-4" >
+              <div class="card-body ">
+              <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Item</th>
+                    <th scope="col">Order Ref</th>
+                    <th scope="col">Order Date</th>
+                    <th scope="col">Prouct Details</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Action</th>
+                   
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order, o:${items}">
+
+                    <th scope="row">
+                        <div class="d-flex align-items-center">
+                            <img th:src="@{'/Images/products_img/'+${order.product.image}}" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
+                        </div>
+                    </th>
+                     <td>
+                        <p class="mb-0 mt-4">[[${order.orderId}]]</p>
+                    </td>
+                       <td>
+                        <p class="mb-0 mt-4"> [[${order.orderDate}]]</p>
+                    </td>
+                     <td>
+                        <p class="mb-0 mt-4"> Quantity:  [[${order.quantity}]]<br>Price: [[${order.price}]]<br>Total price: [[${order.quantity * order.price}]]</p>
+                    </td>
+                    <td>
+                   <th:block th:if="${order.status != 'Cancelled'}">
+									 <a th:href="@{'/user/update-status?id='+${order.id}+'&status=6'}" class="btn btn-small btn-info border-secondary rounded-pill px-1 py-1 text-white  ">[[${order.status}]]</a>
+
+								</th:block>
+								<th:block th:unless="${order.status != 'Cancelled'}">
+									 <a th:href="@{'/user/update-status?id='+${order.id}+'&status=6'}" class="btn btn-small btn-secondary border-secondary rounded-pill px-1 py-1 text-primary  ">[[${order.status}]]</a>
+
+								</th:block>
+                 
+                  
+                    </td>
+                    <td>
+                    
+                    <th:block th:if="${order.status != 'Cancelled'}">
+									 <a th:href="@{'/user/update-status?id='+${order.id}+'&status=6'}" class="btn btn-small btn-danger border-secondary rounded-pill px-1 py-1 text-white ">Cancel</a>
+
+								</th:block>
+								 <th:block th:unless="${order.status != 'Cancelled'}">
+									 <a href="#" class="btn btn-small btn-danger border-secondary rounded-pill px-1 py-1 text-primary disabled">Cancel</a>
+
+								</th:block>
+                    </td>
+                    
+                </tr>
+                </tbody>
+                </table>
+              
+              
+              
+               
+              </div>
+            </div>
+            
+
+            <div class="d-flex justify-content-between pt-2">
+              <p class="fw-bold mb-0">Order Details</p>
+              <p class="text-muted mb-0"><span class="fw-bold me-4">Total Price</span> ksh [[${total}]]</p>
+            </div>
+
+            <div class="d-flex justify-content-between pt-2">
+              <p class="text-muted mb-0">Invoice Number : 788152</p>
+              <p class="text-muted mb-0"><span class="fw-bold me-4">Discount</span> $19.00</p>
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <p class="text-muted mb-0">Invoice Date : 22 Dec,2019</p>
+              <p class="text-muted mb-0"><span class="fw-bold me-4">GST 18%</span> 123</p>
+            </div>
+
+            <div class="d-flex justify-content-between mb-5">
+              <p class="text-muted mb-0">Recepits Voucher : 18KU-62IIK</p>
+              <p class="text-muted mb-0"><span class="fw-bold me-4">Delivery Charges</span> Free</p>
+            </div>
+          </div>
+          <div class="card-footer border-0 px-4 py-5"
+            style="background-color: #a8729a; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+            <h5 class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">Total
+              paid: <span class="h2 mb-0 ms-2">Ksh [[${total}]]</span></h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+</section>
+
+</body>
+</html>

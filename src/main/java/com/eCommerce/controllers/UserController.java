@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.eCommerce.model.Cart;
 import com.eCommerce.model.Product;
+import com.eCommerce.model.ProductOrder;
 import com.eCommerce.service.CartService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,13 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import com.eCommerce.model.Category;
+import com.eCommerce.model.OrderRequest;
 import com.eCommerce.model.User;
 import com.eCommerce.service.CategoryService;
+import com.eCommerce.service.OrderService;
 import com.eCommerce.service.ProductService;
 import com.eCommerce.service.UserService;
+import com.eCommerce.utils.OrderStatus;
 
 @Controller
 @RequestMapping("/user")
@@ -35,6 +39,10 @@ public class UserController {
 
 	@Autowired
 	private CartService cartService;
+	
+	@Autowired
+	OrderService orderService;
+	
 	
 	
 	@ModelAttribute
@@ -121,7 +129,11 @@ public class UserController {
     public String checkOutPage(@RequestParam Integer user, Model m,Principal p) {
 
  
-    	//User user = getUser(p);
+    	User loggedInUser = getUser(p);
+    	
+    	
+    	
+    	
     	List<Cart> order = cartService.checkOutItems(user);
     	
     	Double totalOrderCost = 0.0;
@@ -131,10 +143,68 @@ public class UserController {
     	
     	m.addAttribute("order", order);
     	m.addAttribute("total", totalOrderCost);
+    	m.addAttribute("user", loggedInUser);
     	
     
         return "user/checkout";
 
+    }
+    
+    
+    @PostMapping("/saveOrder")
+    public String saveOrder(Principal p,@ModelAttribute OrderRequest orderRequest) {
+    	System.out.println(orderRequest);
+    	
+    	User user = getUser(p);
+    	
+    	orderService.saveOrder(user.getId(), orderRequest);
+		return "redirect:/user/track-order";
+    	
+    }
+    
+    @GetMapping("/track-order")
+    public String trackOrder(Principal p,Model m) {
+    	
+    	User user = getUser(p);
+    	
+    	List<ProductOrder> userOrders = orderService.getUserOrders(user.getId());
+    	
+    	List<Cart> order = cartService.checkOutItems(user.getId());
+    	
+    	Double totalOrderCost = 0.0;
+    	for(Cart c: order) {
+    		totalOrderCost+=c.getTotalPrice();
+    	}
+    	
+     	m.addAttribute("items", userOrders);
+     	m.addAttribute("total", totalOrderCost);
+		return "/user/order-success";
+    	
+    }
+    
+    @GetMapping("/update-status")
+    public String updateStatus(@RequestParam Integer id, @RequestParam Integer status,HttpSession session) {
+    	
+    	OrderStatus[] orderStatus = OrderStatus.values();
+    	
+    	String orderSt = null;
+    	for(OrderStatus st: orderStatus) {
+    		if(st.getId().equals(status)) {
+    			
+    			orderSt=st.getName();
+    		}
+    	}
+    	
+    	boolean updateStatus = orderService.updateStatus(id, orderSt);
+    	
+    	if(updateStatus) {
+    		session.setAttribute("succMsg", "You have cancelled the order");
+		}else { 
+			session.setAttribute("errMsg", "Failed to cancel order");
+		
+    	}
+		return "redirect:/user/track-order";
+    	
     }
 
 }
