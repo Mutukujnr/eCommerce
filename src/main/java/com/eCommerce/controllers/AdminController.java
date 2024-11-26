@@ -35,6 +35,7 @@ import com.eCommerce.service.CategoryService;
 import com.eCommerce.service.OrderService;
 import com.eCommerce.service.ProductService;
 import com.eCommerce.service.UserService;
+import com.eCommerce.utils.CommonUtils;
 import com.eCommerce.utils.OrderStatus;
 
 import jakarta.servlet.http.HttpSession;
@@ -58,6 +59,9 @@ public class AdminController {
 	@Autowired
 	OrderService orderService;
 
+	@Autowired
+	private CommonUtils commonUtils;
+	
 	@ModelAttribute
 	public void getUserDetails(Principal p, Model m) {
 		if (p != null) {
@@ -320,9 +324,15 @@ public class AdminController {
     		}
     	}
     	
-    	boolean updateStatus = orderService.updateStatus(id, orderSt);
+    	ProductOrder updateStatus = orderService.updateStatus(id, orderSt);
+    	try {
+			commonUtils.sendProductOrderMail(updateStatus,orderSt);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
     	
-    	if(updateStatus) {
+    	if(!ObjectUtils.isEmpty(updateStatus)) {
     		session.setAttribute("succMsg", "Order Status updated");
 		}else { 
 			session.setAttribute("errMsg", "Failed to update order status");

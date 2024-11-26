@@ -18,7 +18,10 @@ import com.eCommerce.repository.ProductOrderRepository;
 import com.eCommerce.repository.ProductRepository;
 import com.eCommerce.repository.UserRepository;
 import com.eCommerce.service.OrderService;
+import com.eCommerce.utils.CommonUtils;
 import com.eCommerce.utils.OrderStatus;
+
+import jakarta.mail.MessagingException;
 
 @Service
 public class ProductOrderServiceImpl implements OrderService{
@@ -32,6 +35,9 @@ public class ProductOrderServiceImpl implements OrderService{
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private CommonUtils commonUtils;
+	
 	@Override
 	public void saveOrder(Integer userId, OrderRequest orderRequest) {
 		
@@ -61,7 +67,13 @@ public class ProductOrderServiceImpl implements OrderService{
 			
 			order.setAddress(address);
 			
-			productOrderRepository.save(order);
+			ProductOrder save = productOrderRepository.save(order);
+			try {
+				commonUtils.sendProductOrderMail(save,"order received");
+			} catch (Exception e) {
+			
+				e.printStackTrace();
+			} 
 		}
 		
 	}
@@ -79,20 +91,20 @@ public class ProductOrderServiceImpl implements OrderService{
 
 
 	@Override
-	public boolean updateStatus(Integer id, String status) {
+	public ProductOrder updateStatus(Integer id, String status) {
 		
 		Optional<ProductOrder> findById = productOrderRepository.findById(id);
 		
 		if(findById.isPresent()) {
 			ProductOrder productOrder = findById.get();
 			productOrder.setStatus(status);
-			productOrderRepository.save(productOrder);
+		
 			
-			return true;
+			return productOrderRepository.save(productOrder);
 		}
 	
 		
-		return false;
+		return null;
 	}
 
 

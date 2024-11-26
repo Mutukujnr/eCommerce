@@ -3,25 +3,33 @@ package com.eCommerce.controllers;
 import java.security.Principal;
 import java.util.List;
 
-import com.eCommerce.model.Cart;
-import com.eCommerce.model.Product;
-import com.eCommerce.model.ProductOrder;
-import com.eCommerce.service.CartService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.eCommerce.model.Cart;
 import com.eCommerce.model.Category;
 import com.eCommerce.model.OrderRequest;
+import com.eCommerce.model.Product;
+import com.eCommerce.model.ProductOrder;
 import com.eCommerce.model.User;
+import com.eCommerce.service.CartService;
 import com.eCommerce.service.CategoryService;
 import com.eCommerce.service.OrderService;
 import com.eCommerce.service.ProductService;
 import com.eCommerce.service.UserService;
+import com.eCommerce.utils.CommonUtils;
 import com.eCommerce.utils.OrderStatus;
+
+import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/user")
@@ -42,6 +50,9 @@ public class UserController {
 	
 	@Autowired
 	OrderService orderService;
+	
+	@Autowired
+	private CommonUtils commonUtils;
 	
 	
 	
@@ -158,6 +169,8 @@ public class UserController {
     	User user = getUser(p);
     	
     	orderService.saveOrder(user.getId(), orderRequest);
+    	
+    	
 		return "redirect:/user/track-order";
     	
     }
@@ -195,9 +208,15 @@ public class UserController {
     		}
     	}
     	
-    	boolean updateStatus = orderService.updateStatus(id, orderSt);
+    	ProductOrder updateStatus = orderService.updateStatus(id, orderSt);
+    	try {
+			commonUtils.sendProductOrderMail(updateStatus,orderSt);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
     	
-    	if(updateStatus) {
+    	if(!ObjectUtils.isEmpty(updateStatus)) {
     		session.setAttribute("succMsg", "You have cancelled the order");
 		}else { 
 			session.setAttribute("errMsg", "Failed to cancel order");

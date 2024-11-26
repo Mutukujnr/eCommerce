@@ -7,6 +7,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
+import com.eCommerce.model.ProductOrder;
+
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpServletRequest;
@@ -52,4 +54,46 @@ public  String generateURL(HttpServletRequest request ) {
 		
 		
 	}
+
+String msg = null;
+public Boolean sendProductOrderMail(ProductOrder productOrder, String status) throws MessagingException, Exception {
+	MimeMessage message = mailSender.createMimeMessage();
+	MimeMessageHelper helper = new MimeMessageHelper(message);
+	
+	
+	helper.setFrom("mutukujuniour@gmail.com","eCommerce");
+	helper.setTo(productOrder.getAddress().getEmail());
+	
+	
+	
+	msg = "<p>Order : [[orderStatus]]</p>"
+			+"Hello [[userName]]<br><p>Your order has been received. </p><br>"
+			+"<p style='text-decoration:underline'>Order Details:</p>"
+			+"<p>Name : [[productName]]</p>"
+			+"<p>Category : [[category]]</p>"
+			+"<p>Quantity : [[quantity]]</p>"
+			+"<p>Price : [[price]]</p>"
+			
+			;
+	
+	
+	helper.setSubject("Your Order");
+	helper.setText(msg, true);
+	
+	
+	
+msg=msg.replace(" [[orderStatus]]", status);
+	msg=msg.replace(" [[userName]]", productOrder.getUser().getName());
+	msg=msg.replace(" [[productName]]", productOrder.getProduct().getTitle());
+	msg=msg.replace(" [[category]]", productOrder.getProduct().getCategory());
+	msg=msg.replace(" [[quantity]]", productOrder.getQuantity().toString());
+	msg=msg.replace(" [[price]]", productOrder.getProduct().getDiscountPrice().toString());
+	//msg=msg.replace(" [[totalPrice]]",  (productOrder.getQuantity() * productOrder.getProduct().getDiscountPrice()));
+	
+	
+	
+	mailSender.send(message);
+	return null;
+	
+}
 }
