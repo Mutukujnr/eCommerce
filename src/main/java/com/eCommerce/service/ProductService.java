@@ -22,4 +22,6 @@ public interface ProductService {
 	List<Product> findAllProducts();
 	
 	public List<Product> findAllActiveProducts(String category);
+	
+	List<Product> search(String search);
 }

@@ -257,6 +257,8 @@ public String showProfile() {
     	
     	User user = getUser(p);
     	
+    	
+    	
     	boolean matches = encoder.matches(currentPassword, user.getPassword());
     	
     	if(matches) {

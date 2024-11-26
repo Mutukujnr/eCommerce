@@ -307,6 +307,7 @@ public class AdminController {
 
 		List<ProductOrder> allOrders = orderService.getAllOrders();
 		m.addAttribute("orders", allOrders);
+		m.addAttribute("search", false);
 
 		return "/admin/orders";
 
@@ -344,6 +345,24 @@ public class AdminController {
     }
 
 	
+	@GetMapping("/search-order")
+	public String search(@RequestParam String orderRef,Model m,HttpSession session) {
+		
+		ProductOrder orderById = orderService.getOrderById(orderRef.trim());
+		
+		if(!ObjectUtils.isEmpty(orderById)) {
+			m.addAttribute("orderDtls", orderById);
+    		
+		}else { 
+			m.addAttribute("orderDtls", null);
+			session.setAttribute("errMsg", "Incorrect Order Id");
+		
+    	}
+		
+		
+				m.addAttribute("search", true);
+		return "/admin/orders";
+	}
 	
 
 }

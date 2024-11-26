@@ -173,6 +173,15 @@ else {
 		
 	}
 	
+	
+	@GetMapping("/search")
+	public String search(@RequestParam String search,Model m) {
+		
+		List<Product> list = productService.search(search);
+		m.addAttribute("products", list);
+		return "product";
+	}
+	
 	/*
 	 * @PostMapping("/forgot-password") public String forgotPassword(@RequestParam
 	 * String email,HttpSession session,HttpServletRequest request) throws

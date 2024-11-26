@@ -122,4 +122,12 @@ Product product = productRepository.findById(id).orElse(null);
 		return products;
 	}
 
+
+	@Override
+	public List<Product> search(String search) {
+		
+		
+		return productRepository.findByTitleContainingIgnoreCaseOrCategoryContainingIgnoreCase(search,search);
+	}
+
 }
