@@ -29,10 +29,13 @@ import org.springframework.web.multipart.MultipartFile;
 import com.eCommerce.dto.ProductDTO;
 import com.eCommerce.model.Category;
 import com.eCommerce.model.Product;
+import com.eCommerce.model.ProductOrder;
 import com.eCommerce.model.User;
 import com.eCommerce.service.CategoryService;
+import com.eCommerce.service.OrderService;
 import com.eCommerce.service.ProductService;
 import com.eCommerce.service.UserService;
+import com.eCommerce.utils.OrderStatus;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -51,6 +54,9 @@ public class AdminController {
 
 	@Autowired
 	private CartService cartService;
+	
+	@Autowired
+	OrderService orderService;
 
 	@ModelAttribute
 	public void getUserDetails(Principal p, Model m) {
@@ -292,12 +298,41 @@ public class AdminController {
 	}
 	
 	@GetMapping("/orders")
-	public String getOrders() {
+	public String getOrders(Model m) {
 
-		
+		List<ProductOrder> allOrders = orderService.getAllOrders();
+		m.addAttribute("orders", allOrders);
 
 		return "/admin/orders";
 
 	}
+	
+	@PostMapping("/update-order-status")
+    public String updateStatus(@RequestParam Integer id, @RequestParam Integer status,HttpSession session) {
+    	
+    	OrderStatus[] orderStatus = OrderStatus.values();
+    	
+    	String orderSt = null;
+    	for(OrderStatus st: orderStatus) {
+    		if(st.getId().equals(status)) {
+    			
+    			orderSt=st.getName();
+    		}
+    	}
+    	
+    	boolean updateStatus = orderService.updateStatus(id, orderSt);
+    	
+    	if(updateStatus) {
+    		session.setAttribute("succMsg", "Order Status updated");
+		}else { 
+			session.setAttribute("errMsg", "Failed to update order status");
+		
+    	}
+		return "redirect:/admin/orders";
+    	
+    }
+
+	
+	
 
 }

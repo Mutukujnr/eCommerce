@@ -1,36 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org"
-	th:fragment="layout(content)">
+	th:replace="~{admin/admin-base::layout(~{::section})}">
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta charset="UTF-8">
 <title>Orders</title>
-<!-- Tell the browser to be responsive to screen width -->
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Font Awesome -->
-<link rel="stylesheet"
-	th:href="@{/plugins/fontawesome-free/css/all.min.css}">
-<!-- Ionicons -->
-<link rel="stylesheet"
-	href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-<!-- Theme style -->
-<link rel="stylesheet" th:href="@{/CSS/adminlte.min.css}">
-<!-- Google Font: Source Sans Pro -->
-<link rel="stylesheet" th:href="@{/CSS/bootstrap.min.css}">
-<link rel="stylesheet" th:href="@{/CSS/style.css}">
-    <link rel="stylesheet" th:href="@{/CSS/fontawesome.css}">
-    <link rel="stylesheet" th:href="@{/CSS/trackOrder.css}">
-<link
-	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
-	rel="stylesheet">
 </head>
-<body>
+<body class="hold-transition sidebar-mini layout-fixed">
 <section class="container-fluid py-5">
 
 <section class="h-100 gradient-custom">
   <div class="container-fluid py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-lg-10 col-xl-10">
+    <p class="text-center fs-3">All Orders</p>
+    <hr>
+      <div class="col-lg-10 col-xl-12 container-fluid">
         <div class="card" style="border-radius: 10px;">
          
           <div class="card-body p-4 ">
@@ -48,6 +31,14 @@
 
 								</th:block>
 							</th:block>
+							<div class="position-relative mx-auto col-md-10">
+							<input
+								class="form-control border-2 border-secondary w-75 py-3 px-4 rounded-pill"
+								type="number" placeholder="Search">
+							<button type="submit"
+								class="btn btn-primary border-2 border-secondary py-3 px-4 position-absolute rounded-pill text-white h-100"
+								style="top: 0; right: 25%;">Submit Now</button>
+						</div>
             
             <div class="card shadow-0 border mb-4" >
               <div class="card-body ">
@@ -55,22 +46,33 @@
                 <thead>
                 <tr>
                     <th scope="col">Item</th>
+                    <th scope="col">Product Details</th>
+                    <th scope="col">Delivery Details</th>
                     <th scope="col">Order Ref</th>
                     <th scope="col">Order Date</th>
-                    <th scope="col">Prouct Details</th>
+                    <th scope="col">Price</th>
                     <th scope="col">Status</th>
                     <th scope="col">Action</th>
                    
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="order, o:${items}">
+                <tr th:each="order, o:${orders}">
 
-                    <th scope="row">
-                        <div class="d-flex align-items-center">
-                            <img th:src="@{'/Images/products_img/'+${order.product.image}}" class="img-fluid me-5 rounded-circle" style="width: 80px; height: 80px;" alt="">
-                        </div>
-                    </th>
+                  
+                    <td>
+                        <p class="mb-0 mt-4">[[${order.product.title}]]</p>
+                    </td>
+                    <td>
+                        <p class="mb-0 mt-4">Name: [[${order.user.name}]] <br>
+                        	 Email: [[${order.user.email}]]<br>
+                        	 Phone: [[${order.user.mobileNumber}]]<br>
+                        	  Address: [[${order.user.address}]]<br>
+                        	   City: [[${order.user.city}]]<br>
+                        	    State: [[${order.user.state}]]<br>
+                        	     PinCode: [[${order.user.pinCode}]]<br>
+                         </p>
+                    </td>
                      <td>
                         <p class="mb-0 mt-4">[[${order.orderId}]]</p>
                     </td>
@@ -82,26 +84,51 @@
                     </td>
                     <td>
                    <th:block th:if="${order.status != 'Cancelled'}">
-									 <a th:href="@{'/user/update-status?id='+${order.id}+'&status=6'}" class="btn btn-small btn-info border-secondary rounded-pill px-1 py-1 text-white  ">[[${order.status}]]</a>
+									 <a th:href="@{'/user/update-status?id='+${order.id}+'&status=6'}" class="btn btn-sm btn-info border-secondary rounded-pill px-1 py-1 text-white  ">[[${order.status}]]</a>
 
 								</th:block>
 								<th:block th:unless="${order.status != 'Cancelled'}">
-									 <a th:href="@{'/user/update-status?id='+${order.id}+'&status=6'}" class="btn btn-small btn-secondary border-secondary rounded-pill px-1 py-1 text-primary  ">[[${order.status}]]</a>
+									 <a th:href="@{'/user/update-status?id='+${order.id}+'&status=6'}" class="btn btn-sm btn-secondary border-secondary rounded-pill px-1 py-1 text-primary  ">[[${order.status}]]</a>
 
 								</th:block>
                  
                   
                     </td>
-                    <td>
+                    <td colspan="2">
+                    <form th:action="@{/admin/update-order-status}" method="post">
+                    <div class="row">
+                    <div class="col">
+                    <select name="status"
+								class="form-control  px-1 py-1 input-sm"
+								>
+								<option>--select--</option>
+								<option value="1">In Progress</option>
+								<option value="2">order received</option>
+								<option value="3">product packed</option>
+								<option value="4">Out for Delivery</option>
+								<option value="5">Delivered</option>
+								
+								</select>
+								
+                    </div>
+                    <input type="hidden" name="id" th:value="${order.id}">
+                    <div class="col" >
+                     <th:block th:if="${order.status == 'Cancelled' || order.status== 'Delivered'}">
+								 <button class="btn btn-sm btn-info px-1 py-1 text-primary col disabled ">Update</button>
+
+								</th:block>
+								 <th:block th:unless="${order.status == 'Cancelled' || order.status=='Delivered'}">
+									 <button type="submit" class="btn btn-sm btn-info px-1 py-1 text-primary col  ">Update</button>
+
+								</th:block>
                     
-                    <th:block th:if="${order.status != 'Cancelled'}">
-									 <a th:href="@{'/user/update-status?id='+${order.id}+'&status=6'}" class="btn btn-small btn-danger border-secondary rounded-pill px-1 py-1 text-white ">Cancel</a>
-
-								</th:block>
-								 <th:block th:unless="${order.status != 'Cancelled'}">
-									 <a href="#" class="btn btn-small btn-danger border-secondary rounded-pill px-1 py-1 text-primary disabled">Cancel</a>
-
-								</th:block>
+								
+                    </div>
+							
+							
+						</div>
+						</form>
+                   
                     </td>
                     
                 </tr>

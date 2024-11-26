@@ -95,4 +95,13 @@ public class ProductOrderServiceImpl implements OrderService{
 		return false;
 	}
 
+
+
+	@Override
+	public List<ProductOrder> getAllOrders() {
+		
+		List<ProductOrder> allOrders = productOrderRepository.findAll();
+		return allOrders;
+	}
+
 }

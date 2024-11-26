@@ -4,9 +4,9 @@ public enum OrderStatus {
 
 	IN_PROGRESS(1,"in progress"),
 	ORDER_RECEIVED(2,"order received"),
-	PRODUCT_PACKED(3,"product_packed"),
+	PRODUCT_PACKED(3,"product packed"),
 	OUT_FOR_DELIVERY(4,"Out for Delivery"),
-	DELIVERD(5,"in Delivered"),CANCEL(6,"Cancelled");
+	DELIVERD(5,"Delivered"),CANCEL(6,"Cancelled");
 	
 	private Integer id;
 	
