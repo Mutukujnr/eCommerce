@@ -5,6 +5,7 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
@@ -55,7 +56,8 @@ public class UserController {
 	/*
 	 * @Autowired private CommonUtils commonUtils;
 	 */
-	
+	@Autowired
+	PasswordEncoder encoder;
 	
 	
 	@ModelAttribute
@@ -249,5 +251,31 @@ public String showProfile() {
     		return "redirect:/user/profile";
 
     	}
+    
+    @PostMapping("/change-password")
+    public String changePassword(@RequestParam String currentPassword, @RequestParam String newPassword,@RequestParam String confirmPassword,Principal p,HttpSession session) {
+    	
+    	User user = getUser(p);
+    	
+    	boolean matches = encoder.matches(currentPassword, user.getPassword());
+    	
+    	if(matches) {
+    		if(newPassword.equals(confirmPassword)) {
+    			String encodePassword= encoder.encode(newPassword);
+    			user.setPassword(encodePassword);
+    			
+    			userService.updateUser(user);
+    			
+    			session.setAttribute("succMsg", "Your password has been successfully updated");
+    			
+    		}else {
+    			session.setAttribute("errMsg", " Password mismatch");
+    		}
+    	}else {
+    		session.setAttribute("errMsg", "Incorrect Password");
+    	}
+		return "redirect:/user/profile";
+    	
+    }
 
 }

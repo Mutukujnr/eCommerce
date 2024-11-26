@@ -106,23 +106,23 @@
 <div class="col-md-6 offset-md-3">
 <table class="table table-borderless">
 								<tbody>
-									<form>
+									<form th:action="@{/user/change-password}" method="post">
 									<tr>
-										<th scope="row">Current Paasord</th>
-										<td><input class="form-control" value="www.example.com"></td>
+										<th scope="row">Current Password</th>
+										<td><input class="form-control" name="currentPassword"></td>
 									</tr>
 									<tr>
 										<th scope="row">New Password</th>
-										<td><input class="form-control" value="www.example.com"></td>
+										<td><input class="form-control" name="newPassword"></td>
 									</tr>
 									<tr>
 										<th scope="row">Confirm New Password</th>
-										<td><input class="form-control" value="www.example.com"></td>
+										<td><input class="form-control"  name="confirmPassword"></td>
 									</tr>
 									<tr>
 										<td></td>
 										<td class="text-center ">
-											<button class="btn btn-sm bg-primary  px-5 text-light">Change Paaword</button>
+											<button type="submit" class="btn btn-sm bg-primary  px-5 text-light">Change Paaword</button>
 										</td>
 									</tr>
 									</form>
