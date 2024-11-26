@@ -2,7 +2,6 @@ package com.eCommerce.controllers;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -10,9 +9,6 @@ import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.util.List;
 
-import javax.swing.plaf.multi.MultiPanelUI;
-
-import com.eCommerce.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
@@ -26,16 +22,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.eCommerce.dto.ProductDTO;
 import com.eCommerce.model.Category;
 import com.eCommerce.model.Product;
 import com.eCommerce.model.ProductOrder;
 import com.eCommerce.model.User;
+import com.eCommerce.service.CartService;
 import com.eCommerce.service.CategoryService;
 import com.eCommerce.service.OrderService;
 import com.eCommerce.service.ProductService;
 import com.eCommerce.service.UserService;
-import com.eCommerce.utils.CommonUtils;
 import com.eCommerce.utils.OrderStatus;
 
 import jakarta.servlet.http.HttpSession;
@@ -192,9 +187,21 @@ public class AdminController {
 	}
 
 	@GetMapping("/products")
-	public String loadProducts(Model model) {
+	public String loadProducts(Model model,@RequestParam(defaultValue = "") String search) {
+		
+		List<Product> products = null;
+		
+		if(search != null && search.length()>0) {
+			products = productService.search(search);
+			model.addAttribute("products", products);
+		}else {
+			products = productService.findAllProducts();
+			
+			
+		}
+		
 
-		model.addAttribute("products", productService.findAllProducts());
+		model.addAttribute("products", products);
 		return "admin/products";
 
 	}
