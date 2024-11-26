@@ -3,7 +3,9 @@
 	th:replace="~{base::layout(~{::section})}">
 <head>
 <meta charset="UTF-8">
+
 <title>Home</title>
+<link rel="stylesheet" th:href="@{/CSS/app.min.css}">
 </head>
 <body>
 	<section class="container-fluid">
@@ -69,7 +71,7 @@
 													<div class="col-lg-12">
 														<div class="row g-4">
 
-															<th:block th:if="${products.size>0}">
+															<th:block th:if="${productsSize>0}">
 
 
 
@@ -104,7 +106,7 @@
 																	</div>
 																</div>
 															</th:block>
-															<th:block th:unless="${products.size>0}">
+															<th:block th:unless="${productsSize>0}">
 																<p class="fs-4 text-center mt-4 text-danger">Product
 																	not available</p>
 															</th:block>
@@ -113,6 +115,30 @@
 
 														</div>
 													</div>
+													<th:block th:if="${productsSize>0}">
+													<div class="col-md-6">
+										<nav aria-label="page navigation example">
+												<ul class="pagination">
+													<li class="page-item " th:classappend="${isFirst} ? 'disabled' : ' '">
+														<a class="page-link" 
+														th:href="@{'/products?pageNo='+${pageNo-1}}" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+													</li>
+
+										
+
+													<li th:each="i:${#numbers.sequence(1,totalPages)}" class="page-item" ><a
+														class="page-link" th:classappend="${pageNo+1==i}?'active':' '"
+														th:href="@{'/products?pageSize='+${i-1}}">[[${i}]]</a>
+													</li>
+													
+													<li class="page-item" th:classappend="${isLast} ? 'disabled' : ' '">
+														<a class="page-link" 
+														th:href="@{'/products?pageNo='+${pageNo+1}}" aria-label="Next"><span aria-hidden="true">&laquo;</span></a>
+													</li>
+												</ul>
+												</nav>
+												</div>
+												</th:block>
 												</div>
 											</div>
 
@@ -120,12 +146,19 @@
 
 
 										</div>
+										
+										
 									</div>
+									
+									
 								</div>
+								
 							</div>
+							
 						</div>
 					</div>
 				</div>
+				
 			</div>
 
 		</div>

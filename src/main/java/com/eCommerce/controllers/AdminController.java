@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
@@ -187,21 +188,28 @@ public class AdminController {
 	}
 
 	@GetMapping("/products")
-	public String loadProducts(Model model,@RequestParam(defaultValue = "") String search) {
+	public String loadProducts(
+			
+			Model model,@RequestParam(defaultValue = "") String search) {
 		
 		List<Product> products = null;
+		
+		//Page<Product> productPage = productService.findPage(pageNo, pageSize, sortBy);
 		
 		if(search != null && search.length()>0) {
 			products = productService.search(search);
 			model.addAttribute("products", products);
+			
+			
 		}else {
 			products = productService.findAllProducts();
 			
 			
 		}
 		
+		
 
-		model.addAttribute("products", products);
+		model.addAttribute("ptoducts", products);
 		return "admin/products";
 
 	}

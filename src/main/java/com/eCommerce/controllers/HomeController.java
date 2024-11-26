@@ -14,6 +14,7 @@ import java.util.UUID;
 import com.eCommerce.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -101,10 +102,23 @@ public class HomeController {
 	}
 	
 	@GetMapping("/products")
-	public String product(Model model,@RequestParam(value = "category",defaultValue = "") String category) {
+	public String product(Model model,@RequestParam(value = "category",defaultValue = "") String category,@RequestParam(name = "pageNo", defaultValue = "0")  int pageNo,@RequestParam(name = "pageSize",defaultValue = "2")  int pageSize) {
 		model.addAttribute("categories", categoryService.findAllActiveCategories());
 		model.addAttribute("products", productService.findAllActiveProducts(category));
 		model.addAttribute("paramValue", category);
+		
+		Page<Product> page = productService.findAllActiveProductsWithPagination(pageNo, pageSize, category);
+		
+		List<Product> products = page.getContent();
+		model.addAttribute("products", products);
+		
+		model.addAttribute("productsSize", products.size());
+		model.addAttribute("pageNo", page.getNumber());
+		model.addAttribute("pageSize", pageSize);
+		model.addAttribute("totalElements", page.getTotalElements());
+		model.addAttribute("totalPages", page.getTotalPages());
+		model.addAttribute("isFirst", page.isFirst());
+		model.addAttribute("isLast", page.isLast());
 
 		return "product";
 		

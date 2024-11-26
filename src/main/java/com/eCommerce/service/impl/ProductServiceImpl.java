@@ -9,6 +9,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -128,6 +132,26 @@ Product product = productRepository.findById(id).orElse(null);
 		
 		
 		return productRepository.findByTitleContainingIgnoreCaseOrCategoryContainingIgnoreCase(search,search);
+	}
+
+
+	@Override
+	public Page<Product> findAllActiveProductsWithPagination(int pageNo, int pageSize,String category) {
+		
+		//Sort sort = Sort.by(Sort.Direction.ASC, );
+		Pageable pageable = PageRequest.of(pageNo, pageSize);
+		
+ Page<Product> products = null;
+		
+		if(ObjectUtils.isEmpty(category)) {
+			products  = productRepository.findByIsActiveTrue(pageable);
+		}else {
+			
+			products = productRepository.findByCategory(pageable,category);
+		}
+		
+		return products;
+		
 	}
 
 }
