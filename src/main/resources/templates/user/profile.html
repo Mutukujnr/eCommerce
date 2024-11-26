@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+	th:replace="~{base::layout(~{::section})}">
+<head>
+<meta charset="UTF-8">
+
+<link rel="stylesheet" th:href="@{/CSS/app.min.css}">
+<title>Profile</title>
+
+
+</head>
+<body>
+	<section class="container-fluid py-5">
+		<div class="content-page">
+			<div class="content">
+
+
+				<div class="col-md-10 offset-md-1 mt-5">
+					<div class="card-body ">
+						<p class="text-center fs-3">My Profile</p>
+						
+							<th:block th:if="${session.succMsg}">
+								<p class="text-success fw-bold text-center alert alert-success">[[${session.succMsg}]]</p>
+								<th:block
+										th:text="${@commonServiceImpl.removeSessionStorage()}">
+
+								</th:block>
+							</th:block>
+							<th:block th:if="${session.errorMsg}">
+								<p class="text-success fw-bold text-center alert alert-danger">[[${session.errorMsg}]]</p>
+								<th:block
+										th:text="${@commonServiceImpl.removeSessionStorage()}">
+
+								</th:block>
+							</th:block>
+						<hr>
+						<div class="profile-user-img border-0">
+							<img th:src="@{/Images/avatar.jpg}" alt=""
+								style="width: 110px; height: 110px"
+								class="avatar-lg rounded-circle">
+						</div>
+						<div class="col-md-6 offset-md-3 ">
+
+							<table class="table table-borderless">
+								<tbody>
+									<form th:action="@{/user/update-profile}" method="post" enctype="multipart/form-data">
+									<tr>
+										<th scope="row">Name</th>
+										<td><input class="form-control" th:value="${user.name}" name="name"></td>
+									</tr>
+									<tr>
+										<th scope="row">Email</th>
+										<td><input class="form-control" th:value="${user.email}" name="email"></td>
+									</tr>
+
+									<tr>
+										<th scope="row">Phone</th>
+										<td class="ng-binding"><input class="form-control" th:value="${user.mobileNumber}" name="mobileNumber"></td>
+									</tr>
+									<tr>
+										<th scope="row">Address</th>
+										<td><input class="form-control" th:value="${user.address}" name="address"></td>
+									</tr>
+									<tr>
+										<th scope="row">City</th>
+										<td><input class="form-control" th:value="${user.city}" name="city"></td>
+									</tr>
+									<tr>
+										<th scope="row">State</th>
+										<td><input class="form-control" th:value="${user.state}" name="state"></td>
+									</tr>
+									<tr>
+										<th scope="row">Pin Code</th>
+										<td><input class="form-control" th:value="${user.pinCode}" name="pinCode"></td>
+									</tr>
+									<tr>
+										<th scope="row">Profile Image</th>
+										<td><input type="file" class="form-control" th:value="${user.profile}" name="image"></td>
+									</tr>
+									<tr>
+										<th scope="row">Role</th>
+										<td><input class="form-control" th:value="${user.role}" readonly="readonly" name="role"></td>
+									</tr>
+									<tr>
+										<th scope="row">Status</th>
+										<td><input class="form-control" th:value="${user.isEnabled}" readonly="readonly" name="isEnabled"></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td class="text-center ">
+											<button class="btn btn-sm bg-primary  px-5 text-light">Update</button>
+										</td>
+									</tr>
+									</form>
+								</tbody>
+							</table>
+						</div>
+
+					</div>
+				</div>
+
+<hr>
+<div class="col-md-10 offset-md-1 mt-1">
+<div class="row">
+<p class="text-center fs-3">Change Password</p>
+<div class="col-md-6 offset-md-3">
+<table class="table table-borderless">
+								<tbody>
+									<form>
+									<tr>
+										<th scope="row">Current Paasord</th>
+										<td><input class="form-control" value="www.example.com"></td>
+									</tr>
+									<tr>
+										<th scope="row">New Password</th>
+										<td><input class="form-control" value="www.example.com"></td>
+									</tr>
+									<tr>
+										<th scope="row">Confirm New Password</th>
+										<td><input class="form-control" value="www.example.com"></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td class="text-center ">
+											<button class="btn btn-sm bg-primary  px-5 text-light">Change Paaword</button>
+										</td>
+									</tr>
+									</form>
+									</tbody>
+									</table>
+									</div>
+</div>
+
+
+			</div>
+			<!-- container -->
+
+		</div>
+		<!-- content -->
+
+
+		<!-- Back to Top -->
+		<a href="#"
+			class="btn btn-primary border-3 border-primary rounded-circle back-to-top"><i
+			class="fa fa-arrow-up"></i></a>
+		</div>
+	</section>
+
+</body>
+</html>

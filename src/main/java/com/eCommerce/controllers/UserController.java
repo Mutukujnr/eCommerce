@@ -1,5 +1,6 @@
 package com.eCommerce.controllers;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.eCommerce.model.Cart;
 import com.eCommerce.model.Category;
@@ -50,9 +52,9 @@ public class UserController {
 	
 	@Autowired
 	OrderService orderService;
-	
-	@Autowired
-	private CommonUtils commonUtils;
+	/*
+	 * @Autowired private CommonUtils commonUtils;
+	 */
 	
 	
 	
@@ -209,12 +211,12 @@ public class UserController {
     	}
     	
     	ProductOrder updateStatus = orderService.updateStatus(id, orderSt);
-    	try {
-			commonUtils.sendProductOrderMail(updateStatus,orderSt);
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-		}
+		/*
+		 * try { commonUtils.sendProductOrderMail(updateStatus,orderSt); } catch
+		 * (Exception e) {
+		 * 
+		 * e.printStackTrace(); }
+		 */
     	
     	if(!ObjectUtils.isEmpty(updateStatus)) {
     		session.setAttribute("succMsg", "You have cancelled the order");
@@ -225,5 +227,27 @@ public class UserController {
 		return "redirect:/user/track-order";
     	
     }
+    
+    @GetMapping("/profile")
+public String showProfile() {
+
+		
+		return "/user/profile";
+
+	}
+    
+    @PostMapping("/update-profile")
+    public String updateProfile(@ModelAttribute User user, MultipartFile  image,HttpSession session) throws IOException {
+
+    	User updateUserProfile = userService.updateUserProfile(user, image);
+    	
+    		if(!ObjectUtils.isEmpty(updateUserProfile)) {
+    			session.setAttribute("succMsg", "Your profile has been updated");
+    		}else { 
+    			session.setAttribute("errMsg", "Failed to update");
+    		}
+    		return "redirect:/user/profile";
+
+    	}
 
 }

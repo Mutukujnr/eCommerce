@@ -7,90 +7,102 @@
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 	<section class="container-fluid">
-		<div class="wrapper" >
-			<div class="content-wrapper"  style="background-color:aliceblue" >
-
-				<div class="container p-5">
-				<th:block th:if="${session.succMsg}">
-								<p class="text-success fw-bold text-center">[[${session.succMsg}]]</p>
-								<th:block th:text="${@commonServiceImpl.removeSessionStorage()}">
-
-								</th:block>
-							</th:block>
-							<th:block th:if="${session.errMsg}">
-								<p class="text-danger fw-bold  text-center">[[${session.errMsg}]]</p>
-								<th:block th:text="${@commonServiceImpl.removeSessionStorage()}">
-
-								</th:block>
-							</th:block>
-				<div class="card" >
-					
-					<div class="card-body table-responsive p-0">
-
-									<table
-										class="table table-hover table-sm text-nowrap table-head-fixed table-bordered">
+		<div class="wrapper">
+			<div class="content-wrapper">
 
 
+				<section class="h-100 gradient-custom">
+					<div class="container-fluid  h-100">
+						<div
+							class="row d-flex justify-content-center align-items-center h-100">
+							<p class="text-center fs-3">Products</p>
+							
+							<div class="col-lg-10 col-xl-12 container-fluid">
+								<div class="card" style="border-radius: 10px;">
+
+									<div class="card-body p-4 ">
+										<th:block th:if="${session.succMsg}">
+											<p
+												class="text-success fw-bold text-center alert alert-success">[[${session.succMsg}]]</p>
+											<th:block
+												th:text="${@commonServiceImpl.removeSessionStorage()}">
+
+											</th:block>
+										</th:block>
+										<th:block th:if="${session.errorMsg}">
+											<p
+												class="text-success fw-bold text-center alert alert-danger">[[${session.errorMsg}]]</p>
+											<th:block
+												th:text="${@commonServiceImpl.removeSessionStorage()}">
+
+											</th:block>
+										</th:block>
 
 
-										<thead class="thead-light">
-											<tr>
-												
-												<th>P/NO.</th>
-												<th>Image</th>
-												<th>Title</th>
-												<th>Description</th>
-												<th>Category</th>
-												<th>Price</th>
-												<th>Discount</th>
-												<th>Discount Price</th>
-											
-												<th>Stock</th>
-													<th>Status</th>
-												
-												
-												<th colspan="2">Action</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr th:each="prd, p: ${products}">
-											
-												<td>[[${p.count}]]</td>
-												<td><img
-												th:src="@{'/Images/products_img/'+${prd.image}}"
-												width="100px" height="80px"></td>
-												<td>[[${prd.title}]]</td>
-												<td>[[${prd.description}]]</td>
-												<td>[[${prd.category}]]</td>
-												<td>[[${prd.price}]]</td>
-												<td>[[${prd.discount}]]</td>
-												<td>[[${prd.discountPrice}]]</td>
-												<td>[[${prd.stock}]]</td>
-													<td>[[${prd.isActive}]]</td>
-												
-												
-												<td><a th:href="@{/admin/editProduct/{id}(id = ${prd.id})}" class="btn btn-primary">
-														Edit</a></td>
-												<td><a th:href="@{/admin/deleteProduct/{id}(id = ${prd.id})}" class="btn btn-danger" onClick="return confirm('Are you sure?')">
-														Delete</a></td>
+										<div class="card shadow-0 border mb-4">
+											<div class="card-body ">
+												<table class="table table-hover table-sm ">
+													<thead>
+														<tr>
 
-												<!-- <a  th:href="@{/deleteBook/{id}(id = ${book.book_id})}" class='btn btn-danger '>
+															<th scope="col">P/NO.</th>
+															<th scope="col">Image</th>
+															<th scope="col">Title</th>
+															<th scope="col">Description</th>
+															<th scope="col">Category</th>
+															<th scope="col">Price</th>
+															<th scope="col">Discount</th>
+															<th scope="col">Discount Price</th>
+
+															<th>Stock</th>
+															<th>Status</th>
+
+
+															<th colspan="2">Action</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr th:each="prd, p: ${products}">
+
+															<td>[[${p.count}]]</td>
+															<td><img
+																th:src="@{'/Images/products_img/'+${prd.image}}"
+																width="100px" height="80px"></td>
+															<td>[[${prd.title}]]</td>
+															<td>[[${prd.description}]]</td>
+															<td>[[${prd.category}]]</td>
+															<td>[[${prd.price}]]</td>
+															<td>[[${prd.discount}]]</td>
+															<td>[[${prd.discountPrice}]]</td>
+															<td>[[${prd.stock}]]</td>
+															<td>[[${prd.isActive}]]</td>
+
+
+															<td><a
+																th:href="@{/admin/editProduct/{id}(id = ${prd.id})}"
+																class="btn btn-primary btn-sm"> Edit</a></td>
+															<td><a
+																th:href="@{/admin/deleteProduct/{id}(id = ${prd.id})}"
+																class="btn btn-danger btn-sm"
+																onClick="return confirm('Are you sure?')"> Delete</a></td>
+
+															<!-- <a  th:href="@{/deleteBook/{id}(id = ${book.book_id})}" class='btn btn-danger '>
 														Delete</a> -->
-											</tr>
+														</tr>
 
-										</tbody>
-									</table>
-									
-									
-
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
 								</div>
-</div>
-
-				</div>
+							</div>
+						</div>
+					</div>
+				</section>
 				<!-- /content wrapper -->
 			</div>
 		</div>
-
 	</section>
 </body>
 </html>

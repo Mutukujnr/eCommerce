@@ -35,8 +35,9 @@ public class ProductOrderServiceImpl implements OrderService{
 	@Autowired
 	private UserRepository userRepository;
 
-	@Autowired
-	private CommonUtils commonUtils;
+	/*
+	 * @Autowired private CommonUtils commonUtils;
+	 */
 	
 	@Override
 	public void saveOrder(Integer userId, OrderRequest orderRequest) {
@@ -68,12 +69,12 @@ public class ProductOrderServiceImpl implements OrderService{
 			order.setAddress(address);
 			
 			ProductOrder save = productOrderRepository.save(order);
-			try {
-				commonUtils.sendProductOrderMail(save,"order received");
-			} catch (Exception e) {
-			
-				e.printStackTrace();
-			} 
+			/*
+			 * try { commonUtils.sendProductOrderMail(save,"order received"); } catch
+			 * (Exception e) {
+			 * 
+			 * e.printStackTrace(); }
+			 */
 		}
 		
 	}

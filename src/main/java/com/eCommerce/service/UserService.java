@@ -1,6 +1,9 @@
 package com.eCommerce.service;
 
+import java.io.IOException;
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.eCommerce.model.User;
 
@@ -29,4 +32,7 @@ public interface UserService {
 	public User findUserByResetToken(String token);
 	
 	public User updateUser(User user);
+	
+	public User updateUserProfile(User user,MultipartFile  image) throws IOException;
+	
 }

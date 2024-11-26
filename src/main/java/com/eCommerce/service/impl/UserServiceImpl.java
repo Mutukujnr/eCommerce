@@ -1,13 +1,21 @@
 package com.eCommerce.service.impl;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.eCommerce.model.User;
 import com.eCommerce.repository.UserRepository;
@@ -130,6 +138,41 @@ public class UserServiceImpl implements UserService {
 	public User updateUser(User user) {
 		
 		return userRepository.save(user);
+	}
+
+	@Override
+	public User updateUserProfile(User user,MultipartFile  image) throws IOException {
+		
+		Optional<User> option  = userRepository.findById(user.getId());
+		User existingUser = null;
+		
+		if(!image.isEmpty()) {
+			existingUser.setProfile(image.getOriginalFilename());
+		}
+		
+		if(option.isPresent()) {
+			
+			 existingUser = option.get();
+			existingUser.setName(user.getName());
+			existingUser.setMobileNumber(user.getMobileNumber());
+			existingUser.setEmail(user.getEmail());
+			existingUser.setAddress(user.getAddress());
+			existingUser.setCity(user.getCity());
+			existingUser.setState(user.getState());
+			existingUser.setPinCode(user.getPinCode());
+			
+		}
+		
+		if (!image.isEmpty()) {
+			File saveFile = new ClassPathResource("static/Images").getFile();
+			Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + "profile_img" + File.separator
+					+ image.getOriginalFilename());
+
+			System.out.println(path);
+			Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+		}
+		
+		return userRepository.save(existingUser);
 	}
 
 }

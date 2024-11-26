@@ -59,8 +59,9 @@ public class AdminController {
 	@Autowired
 	OrderService orderService;
 
-	@Autowired
-	private CommonUtils commonUtils;
+	/*
+	 * @Autowired private CommonUtils commonUtils;
+	 */
 	
 	@ModelAttribute
 	public void getUserDetails(Principal p, Model m) {
@@ -325,12 +326,12 @@ public class AdminController {
     	}
     	
     	ProductOrder updateStatus = orderService.updateStatus(id, orderSt);
-    	try {
-			commonUtils.sendProductOrderMail(updateStatus,orderSt);
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-		}
+		/*
+		 * try { commonUtils.sendProductOrderMail(updateStatus,orderSt); } catch
+		 * (Exception e) {
+		 * 
+		 * e.printStackTrace(); }
+		 */
     	
     	if(!ObjectUtils.isEmpty(updateStatus)) {
     		session.setAttribute("succMsg", "Order Status updated");
