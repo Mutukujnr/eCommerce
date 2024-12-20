@@ -4,21 +4,22 @@
 <meta charset="UTF-8">
 <title>Login</title>
 </head>
-<body class="authentication-bg position-relative">
-<section class="container-fluid">
-<div class="wrapper">
-  <div class="content-wrapper">
+
+<section class="content-page ">
+	<div class="content ">
+		<div class="container-fluid">
+
   <!-- /.login-logo -->
   <div class="card col-lg-7 mx-auto">
     <div class="card-body">
       <div class="card-header text-center fs-4 mb-5 bg-warning">Edit Category</div>
 
       <form th:action="@{/admin/updateCategory}" method="post"
-									enctype="multipart/form-data">
+									enctype="multipart/form-data" th:object="${categoryDTO}">
 									<input type="hidden" name="id" th:value="${category.id}"
 											>
 									<div class="mb-3">
-										<label>Add Category</label> <input type="text" name="name" th:value="${category.name}"
+										<label>Add Category</label> <input type="text" name="name" th:value="${categoryDTO.name}"
 											class="form-control" placeholder="Enter Title">
 
 									</div>
@@ -27,26 +28,29 @@
 									<div class="mb-3">
 										<div class="form-check">
 											<input class="form-check-input" type="radio" name="isActive"
-												th:checked="${category.isActive == true}" value="true"> <label
+												th:checked="${categoryDTO.isActive == true}" value="true"> <label
 												class="form-check-label">Active</label>
 										</div>
 										<div class="form-check">
-											<input class="form-check-input" type="radio" name="isActive" th:checked="${category.isActive == false}"
+											<input class="form-check-input" type="radio" name="isActive" th:checked="${categoryDTO.isActive == false}"
 												value="false"> <label class="form-check-label">Inactive
 											</label>
 										</div>
 
 									</div>
+									
+									<div class="row mb-3">
+									<div class="offset-sm-4 col-sm-8">
+										<img th:src="@{'/Images/categories/'+${category.imageName}}" width="150px">
+										</div>
+									</div>
 
 									<div class="mb-3">
-										<label>Upload Image</label> <input type="file" name="file" 
+										<label>Upload Image</label> <input type="file" name="file" th:field="${categoryDTO.imageName}"
 											class="form-control" placeholder="Enter Title">
 
 									</div>
-									<div class="col-6 mx-auto mb-4">
-										<img th:src="@{'/Images/category_img/'+${category.imageName}}" width="150px" height="100px">
-
-									</div>
+									
 
 
 									<div>

@@ -5,12 +5,11 @@
 <meta charset="UTF-8">
 <title>Login</title>
 </head>
-<body class="hold-transition sidebar-mini layout-fixed">
-	<section class="container-fluid">
-		<div class="wrapper" >
-			<div class="content-wrapper"  style="background-color:aliceblue" >
+	<section class="content-page ">
+	<div class="content ">
+		<div class="container-fluid">
 
-				<div class="container p-5">
+				
 				<th:block th:if="${session.succMsg}">
 								<p class="text-success fw-bold text-center">[[${session.succMsg}]]</p>
 								<th:block th:text="${@commonServiceImpl.removeSessionStorage()}">
@@ -54,7 +53,7 @@
 											
 												<td>[[${u.count}]]</td>
 												<td><img
-												th:src="@{'/Images/profile_img/'+${user.profile}}"
+												th:src="@{'/Images/profile/'+${user.profile}}"
 												width="100px" height="80px"></td>
 												<td>[[${user.name}]]</td>
 												<td>[[${user.mobileNumber}]]</td>
@@ -63,9 +62,9 @@
 												<td>[[${user.isEnabled}]]</td>
 												
 												
-												<td><a th:href="@{'/admin/updateStatus?status=true&id='+${user.id}}" class="btn btn-primary">
-														Active</a></td>
-												<td><a th:href="@{'/admin/updateStatus?status=false&id='+${user.id}}" class="btn btn-danger" onClick="return confirm('Are you sure?')">
+												<td style="white-space:nowrap"><a th:href="@{'/admin/updateStatus?status=true&id='+${user.id}}" class="btn btn-primary">
+														Active</a>
+												<a th:href="@{'/admin/updateStatus?status=false&id='+${user.id}}" class="btn btn-danger" onClick="return confirm('Are you sure?')">
 														InActivate</a></td>
 
 												<!-- <a  th:href="@{/deleteBook/{id}(id = ${book.book_id})}" class='btn btn-danger '>
@@ -83,7 +82,7 @@
 				</div>
 				<!-- /content wrapper -->
 			</div>
-		</div>
+		
 
 	</section>
 </body>

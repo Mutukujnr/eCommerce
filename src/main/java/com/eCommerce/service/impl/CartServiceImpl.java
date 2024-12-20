@@ -42,14 +42,16 @@ public class CartServiceImpl implements  CartService{
             cart.setUser(user);
             cart.setProduct(product);
             cart.setQuantity(1);
-            cart.setTotalPrice(product.getDiscountPrice());
+            Double price = product.getDiscountPrice() == null ? product.getPrice() : product.getDiscountPrice();
+            cart.setTotalPrice(price);
             
 
         }else{
             cart = cartStatus;
             cart.setQuantity(cart.getQuantity() + 1);
-            cart.setTotalPrice(cart.getQuantity() * cart.getProduct().getDiscountPrice());
-        }
+            Double price = cart.getProduct().getDiscountPrice() != null ? cart.getQuantity() * cart.getProduct().getDiscountPrice() : cart.getProduct().getPrice(); 
+            cart.setTotalPrice(price);      
+            }
 
         return cartRepository.save(cart); // This should save or update the cart
     }

@@ -35,4 +35,11 @@ public interface UserService {
 	
 	public User updateUserProfile(User user,MultipartFile  image) throws IOException;
 	
+	
+	public User saveAdmin(User user);
+	
+	public long getUserCount();
+	
+	
+	
 }

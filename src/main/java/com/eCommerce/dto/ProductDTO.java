@@ -3,21 +3,59 @@ package com.eCommerce.dto;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.persistence.Column;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 public class ProductDTO {
 
+	//@NotEmpty(message = "Product name is required")
 private String title;
 	
-	
+	//@Size(min=10,message="Description should be atleast 10 characters")
+	//@Size(max=1000,message="Description should not exceed 1000 characters")
 	private String description;
 	
+	//@NotEmpty(message="Category is required")
 	private String category;
 	
+//	@Size(min=0)
 	private Double price;
 	
+	//@Size(min=1)
 	private int stock;
 	
-	private MultipartFile imageFile;
+	private MultipartFile image;
+	
+	//@Size(min=0)
+private int discount;
+	
+	public int getDiscount() {
+	return discount;
+}
+
+public void setDiscount(int discount) {
+	this.discount = discount;
+}
+
+public Double getDiscountPrice() {
+	return discountPrice;
+}
+
+public void setDiscountPrice(Double discountPrice) {
+	this.discountPrice = discountPrice;
+}
+
+public Boolean getIsActive() {
+	return isActive;
+}
+
+public void setIsActive(Boolean isActive) {
+	this.isActive = isActive;
+}
+
+	private Double discountPrice;
+	
+	private Boolean isActive;
 
 	public String getTitle() {
 		return title;
@@ -59,13 +97,14 @@ private String title;
 		this.stock = stock;
 	}
 
-	public MultipartFile getImageFile() {
-		return imageFile;
+	public MultipartFile getImage() {
+		return image;
 	}
 
-	public void setImageFile(MultipartFile imageFile) {
-		this.imageFile = imageFile;
+	public void setImage(MultipartFile image) {
+		this.image = image;
 	}
+
 	
 	
 	

@@ -31,9 +31,22 @@ public class ProductServiceImpl implements ProductService{
 	private ProductRepository productRepository;
 	
 	
-	  @Override public Product saveProduct(Product product) {
-	  
+	  @Override public Product saveProduct(ProductDTO productDTO) {
+		  
+		  MultipartFile image = productDTO.getImage();
+			String storageFileName = image.getOriginalFilename();
 			
+			Double discPrice = null; 
+			
+			if(productDTO.getDiscountPrice() == null) {
+				discPrice = productDTO.getPrice();
+			}else {
+				discPrice = (productDTO.getDiscount()/100) * productDTO.getPrice();
+			}
+			
+			
+	  
+			Product product = new Product(productDTO.getTitle(),productDTO.getDescription(),productDTO.getCategory(),productDTO.getPrice(),productDTO.getStock(),productDTO.getImage().getOriginalFilename(),productDTO.getDiscount(),discPrice,productDTO.getIsActive());
 	  
 	  return productRepository.save(product); }
 	
@@ -151,6 +164,27 @@ Product product = productRepository.findById(id).orElse(null);
 		}
 		
 		return products;
+		
+	}
+
+
+
+
+
+	@Override
+	public Page<Product> searchProductPagination(Integer pageNo, Integer pageSize, String search) {
+		Pageable pageable = PageRequest.of(pageNo, pageSize);
+		
+		return productRepository.findByTitleContainingIgnoreCaseOrCategoryContainingIgnoreCase(search, search,pageable);
+		
+	}
+
+
+	@Override
+	public Page<Product> findAllProductsPagination(Integer pageNo, Integer pageSize) {
+		Pageable pageable = PageRequest.of(pageNo, pageSize);
+		
+		return productRepository.findAll(pageable);
 		
 	}
 

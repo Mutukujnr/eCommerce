@@ -5,27 +5,29 @@
 <meta charset="UTF-8">
 <title>Login</title>
 </head>
-<body class="hold-transition sidebar-mini layout-fixed">
-	<section class="container-fluid">
-		<div class="wrapper">
-			<div class="content-wrapper "style="background-color:aliceblue">
+<body>
+	<!-- [ Main Content ] start -->
+	<section class="content-page">
 
-				<div class="row container-fluid">
-					<div class="col-lg-4">
+
+		<div class="content ">
+			<div class="container-fluid">
+				<div class="row mt-2">
+					<div class="col-xl-3 col-md-12">
 						<div class="card">
 
 							<div class="card-body">
 								<div class="card-header text-center fs-3 mb-5 bg-white">
 									Add Category
 									<th:block th:if="${session.succMsg}">
-										<p class="text-success fw-bold">[[${session.succMsg}]]</p>
+										<p class="text-success fw-bold text-center alert alert-success">[[${session.succMsg}]]</p>
 										<th:block
 											th:text="${@commonServiceImpl.removeSessionStorage()}">
 
 										</th:block>
 									</th:block>
 									<th:block th:if="${session.errMsg}">
-										<p class="text-danger fw-bold">[[${session.errMsg}]]</p>
+										<p class="text-success fw-bold text-center alert alert-danger">[[${session.errMsg}]]</p>
 										<th:block
 											th:text="${@commonServiceImpl.removeSessionStorage()}">
 
@@ -33,10 +35,11 @@
 									</th:block>
 								</div>
 								<form th:action="@{/admin/addCategory}" method="post"
-									enctype="multipart/form-data">
+									enctype="multipart/form-data" th:object="${categoryDTO}">
 									<div class="mb-3">
 										<label>Add Category</label> <input type="text" name="name"
-											class="form-control" placeholder="Enter Title">
+											class="form-control" placeholder="Enter Title" th:field="${categoryDTO.name}">
+											<!-- <p th:if="${#fields.hasErrors('name')}" th:errorclass="text-danger" th:errors="${categoryDTO.name}"></p> -->
 
 									</div>
 
@@ -44,12 +47,12 @@
 									<div class="mb-3">
 										<div class="form-check">
 											<input class="form-check-input" type="radio" name="isActive"
-												checked value="true"> <label
+												checked value="true" th:field="${categoryDTO.isActive}"> <label
 												class="form-check-label">Active</label>
 										</div>
 										<div class="form-check">
 											<input class="form-check-input" type="radio" name="isActive"
-												value="false"> <label class="form-check-label">Inactive
+												value="false" th:field="${categoryDTO.isActive}"> <label class="form-check-label">Inactive
 											</label>
 										</div>
 
@@ -57,32 +60,32 @@
 
 									<div class="mb-3">
 										<label>Upload Image</label> <input type="file" name="file"
-											class="form-control" placeholder="Enter Title">
+											class="form-control" placeholder="Enter Title" th:field="${categoryDTO.imageName}">
 
 									</div>
 
 
-									<div>
-										<button type="submit" class="btn btn-primary btn-block mb-3">Add</button>
+									<div class="col">
+										<button type="submit"
+											class="btn btn-primary btn-block mb-3 px-5">Add</button>
 									</div>
 
 								</form>
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-8">
+					<div class="col-xl-9 col-md-12">
 						<div class="card">
 							<div class="card-body table-responsive p-0">
 
-								<table
-									class="table table-hover table-sm text-nowrap table-head-fixed table-bordered">
+								<table class="table table-sm ">
 
 
 									<thead class="thead-light">
 										<tr>
 											<th scope="col">S/NO</th>
 											<th scope="col">Category Name</th>
-											<th scope="col">Status</th>
+
 											<th scope="col">Image</th>
 											<th colspan="2">Action</th>
 
@@ -90,12 +93,18 @@
 										<tr th:each="cat, c:${categories}">
 											<td scope="row">[[${c.count}]]</td>
 											<td>[[${cat.name}]]</td>
-											<td>[[${cat.isActive}]]</td>
+
 											<td><img
-												th:src="@{'/Images/category_img/'+${cat.imageName}}"
+												th:src="@{'/Images/categories/'+${cat.imageName}}"
 												width="100px" height="80px"></td>
-												<td> <a  class="btn btn-primary" th:href="@{/admin/editCategory/{id}(id = ${cat.id})}">Edit</a></td>
-												<td><a th:href="@{/admin/deleteCategory/{id}(id = ${cat.id})}" class="btn btn-danger">Delete</a></td>
+											<td style="white-space:nowrap"><a class="btn btn-success btn-sm "
+												th:href="@{/admin/editCategory/{id}(id = ${cat.id})}">Edit</a>
+												<a
+												th:href="@{/admin/deleteCategory/{id}(id = ${cat.id})}"
+												class="btn btn-danger btn-sm " onclick="return confirm('Are You sure to delete?')">Delete</a>
+												
+												</td>
+											
 
 										</tr>
 									</thead>
@@ -104,10 +113,42 @@
 
 									</tbody>
 								</table>
+								<div class="col-sm-12 col-md-2">
+									<div class="dataTables_paginate paging_simple_numbers"
+										id="example1_paginate">
+
+										<ul class="pagination d-flex justify-content-between">
+											<li class="paginate_button page-item "
+												th:classappend="${isFirst} ? 'disabled' : ' '"><a
+												class="page-link"
+												th:href="@{'/admin/category?pageNo='+${pageNo-1}}"
+												aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+											</li>
+
+
+
+											<li th:each="i:${#numbers.sequence(1,totalPages)}"
+												class="paginate_button page-item"><a class="page-link"
+												th:classappend="${pageNo+1==i}?'active':' '"
+												th:href="@{'/admin/category?pageSize='+${i-1}}">[[${i}]]</a></li>
+
+											<li class="paginate_button page-item"
+												th:classappend="${isLast} ? 'disabled' : ' '"><a
+												class="page-link"
+												th:href="@{'/admin/category?pageNo='+${pageNo+1}}"
+												aria-label="Next"><span aria-hidden="true">&laquo;</span></a>
+											</li>
+										</ul>
+
+									</div>
+								</div>
 
 
 
 							</div>
+
+
+
 						</div>
 					</div>
 
@@ -115,8 +156,8 @@
 				</div>
 				<!-- /content wrapper -->
 			</div>
-		</div>
 
+		</div>
 	</section>
 </body>
 </html>

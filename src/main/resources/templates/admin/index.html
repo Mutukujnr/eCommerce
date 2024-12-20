@@ -1,204 +1,295 @@
 <!DOCTYPE html>
-<html lang ="en" xmlns:th="https://www.thymeleaf.org"  th:replace="~{admin/admin-base::layout(~{::section})}">
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+	th:replace="~{admin/admin-base::layout(~{::section})}">
 <head>
 <meta charset="UTF-8">
 <title>Home</title>
 </head>
+<body>
+	<section class="content-page">
+		<div class="content">
 
-<section class="container-fluid">
- <div class="content-wrapper">
-			<!-- Content Header (Page header) -->
-			<div class="content-header">
-				<div class="container-fluid">
-					<div class="row mb-2">
-						<div class="col-sm-6">
-							<!-- <h1 class="m-0 text-dark">Dashboard</h1> -->
+			<!-- Start Content-->
+			<div class="container-fluid">
+
+				<!-- start page title -->
+				<div class="row">
+					<div class="col-12">
+						<div class="page-title-box">
+							<div class="page-title-right">
+								<ol class="breadcrumb m-0">
+									<li class="breadcrumb-item"><a href="javascript: void(0);">Velonic</a></li>
+									<li class="breadcrumb-item"><a href="javascript: void(0);">Dashboards</a></li>
+									<li class="breadcrumb-item active">Welcome!</li>
+								</ol>
+							</div>
+							<h4 class="page-title">Welcome!</h4>
 						</div>
-						<!-- /.col -->
-						<div class="col-sm-6">
-							<ol class="breadcrumb float-sm-right">
-								<!-- <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Dashboard v1</li> -->
-							</ol>
-						</div>
-						<!-- /.col -->
 					</div>
-					<!-- /.row -->
 				</div>
-				<!-- /.container-fluid -->
+				<!-- end page title -->
+
+				<div class="row">
+					<div class="col-xxl-3 col-sm-3">
+						<div class="card" style="border-bottom: 2px solid aqua;">
+							<div class="card-body">
+								<div class="row align-items-center">
+									<div class="col-8">
+										<h2 class="text-c-green">[[${customers}]]</h2>
+
+									</div>
+									<div class="col-4 text-right">
+										<i class=""><img
+											src="../public/images/icons8_People_50px.png" alt=""
+											srcset=""></i>
+									</div>
+								</div>
+							</div>
+							<div class="card-footer">
+								<div class="align-items-center">
+									<h4 class="text-muted m-b-0 text-center">Students</h4>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- end col-->
+
+					<div class="col-xxl-3 col-sm-3">
+						<div class="card" style="border-bottom: 2px solid aqua;">
+							<div class="card-body">
+								<div class="row align-items-center">
+									<div class="col-8">
+										<h2 class="text-c-green">[[${cat}]]</h2>
+
+									</div>
+									<div class="col-4 text-right">
+										<i class=""><img
+											src="../public/images/icons8_People_50px.png" alt=""
+											srcset=""></i>
+									</div>
+								</div>
+							</div>
+							<div class="card-footer">
+								<div class="align-items-center">
+									<h4 class="text-muted m-b-0 text-center">Product Types</h4>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- end col-->
+
+					<div class="col-xxl-3 col-sm-3">
+						<div class="card widget-flat text-bg-info">
+							<div class="card-body">
+								<div class="float-end">
+									<i class="ri-shopping-basket-line widget-icon"></i>
+								</div>
+								<h6 class="text-uppercase mt-0" title="Customers">Orders</h6>
+								<h2 class="my-2">753</h2>
+								<p class="mb-0">
+									<span class="badge bg-white bg-opacity-25 me-1">-5.75%</span> <span
+										class="text-nowrap">Since last month</span>
+								</p>
+							</div>
+						</div>
+					</div>
+					<!-- end col-->
+
+					<div class="col-xxl-3 col-sm-3">
+						<div class="card widget-flat text-bg-primary">
+							<div class="card-body">
+								<div class="float-end">
+									<i class="ri-group-2-line widget-icon"></i>
+								</div>
+								<h6 class="text-uppercase mt-0" title="Customers">Users</h6>
+								<h2 class="my-2">63,154</h2>
+								<p class="mb-0">
+									<span class="badge bg-white bg-opacity-10 me-1">8.21%</span> <span
+										class="text-nowrap">Since last month</span>
+								</p>
+							</div>
+						</div>
+					</div>
+					<!-- end col-->
+				</div>
+
+
+
+
+
+
+				<!-- Todo-->
+				<div class="card">
+					<div class="card-body p-0">
+						<div class="p-3">
+
+							<h5 class="header-title mb-0 text-center text-primary">Orders</h5>
+						</div>
+
+						<div id="yearly-sales-collapse" class="collapse show">
+
+							<div class="table-responsive">
+								<table id="example1" class="table table-nowrap table-hover mb-0 table-responsive dataTable" role="grid">
+									<thead class="table-light">
+										<tr>
+
+											<th scope="col">Product</th>
+
+											<th scope="col">Delivery Details</th>
+											<th scope="col">Order Ref</th>
+											<th scope="col">Order Date</th>
+											<th scope="col">Price</th>
+											<th scope="col">Status</th>
+
+
+										</tr>
+									</thead>
+									<tbody>
+
+										<tr th:each="order, o:${orders}">
+
+											<td>
+												<p class="mb-0 mt-4">[[${order.product.title}]]</p>
+											</td>
+											<!-- <td>
+												<p class="mb-0 mt-4">[[${order.product.category}]]</p>
+											</td> -->
+											<td>
+												<p class="mb-0 mt-4">
+													Name: [[${order.user.name}]] <br> Email:
+													[[${order.user.email}]]<br> Phone:
+													[[${order.user.mobileNumber}]]<br> Address:
+													[[${order.user.address}]]<br> City:
+													[[${order.user.city}]]<br> State:
+													[[${order.user.state}]]<br> PinCode:
+													[[${order.user.pinCode}]]<br>
+												</p>
+											</td>
+											<td>
+												<p class="mb-0 mt-4">[[${order.orderId}]]</p>
+											</td>
+											<td>
+												<p class="mb-0 mt-4">[[${order.orderDate}]]</p>
+											</td>
+											<td>
+												<p class="mb-0 mt-4">
+													Quantity: [[${order.quantity}]]<br>Price:
+													[[${order.price}]]<br>Total price: [[${order.quantity
+													* order.price}]]
+												</p>
+											</td>
+											<td>
+											<th:block th:if="${order.status == 'product packed'}">
+													<a
+														href=""><span
+														class="px-1 py-1 badge bg-primary-subtle text-primary">[[${order.status}]]</span></a>
+
+												</th:block>
+												<th:block th:if="${order.status == 'order received'}">
+													<a
+														href=""><span
+														class="px-1 py-1 badge bg-warning-subtle text-warning">[[${order.status}]]</span></a>
+
+												</th:block>
+												<th:block th:if="${order.status == 'Out for Delivery' || order.status == 'in progress'}">
+													<a
+														href=""><span
+														class="px-1 py-1 badge bg-purple-subtle text-purple">[[${order.status}]]</span></a>
+
+												</th:block>
+												<th:block th:if="${order.status == 'Delivered'}">
+													<a
+														href=""><span
+														class="px-1 py-1 badge bg-success-subtle text-white">[[${order.status}]]</span></a>
+
+												</th:block>
+												<th:block th:if="${order.status == 'Cancelled'}">
+													<a
+														href=""
+													><span class="px-1 py-1 badge bg-danger-subtle text-danger">[[${order.status}]]</span></a>
+
+												</th:block>
+												
+												 </td>
+
+
+										</tr>
+
+
+
+
+									</tbody>
+								</table>
+								<div class="col-sm-12 col-md-2">
+									<div class="dataTables_paginate paging_simple_numbers"
+										id="example1_paginate">
+
+										<ul class="pagination d-flex justify-content-between">
+											<li class="paginate_button page-item "
+												th:classappend="${isFirst} ? 'disabled' : ' '"><a
+												class="page-link"
+												th:href="@{'/admin/orders?pageNo='+${pageNo-1}}"
+												aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+											</li>
+
+
+
+											<li th:each="i:${#numbers.sequence(1,totalPages)}"
+												class="paginate_button page-item"><a class="page-link"
+												th:classappend="${pageNo+1==i}?'active':' '"
+												th:href="@{'/admin/orders?pageSize='+${i-1}}">[[${i}]]</a></li>
+
+											<li class="paginate_button page-item"
+												th:classappend="${isLast} ? 'disabled' : ' '"><a
+												class="page-link"
+												th:href="@{'/admin/orders?pageNo='+${pageNo+1}}"
+												aria-label="Next"><span aria-hidden="true">&laquo;</span></a>
+											</li>
+										</ul>
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- end card-->
 			</div>
-			<!-- /.content-header -->
+			<!-- end col-->
 
-			<!-- Main content -->
-			<section class="content">
-
-				<div class="container-fluid">
-					<!-- <div th:if="${param.success}" id="myDiv" class="bg-success fade-in-element" style="color:white;padding:6px;width:30%;margin:auto">
-					<p style="text-align:center">Login sucessful</p>
-				</div> -->
-
-
-					<div th:if="${param.success}">
-						<script th:inline="javascript">
-							/*<![CDATA[*/
-							$(document).ready(function() {
-								$.toast({
-									heading : 'Success',
-									text : 'Login successful!',
-									showHideTransition : 'slide',
-									icon : 'success',
-									position : 'top-right'
-								});
-							});
-							/*]]>*/
-						</script>
-					</div>
-
-					<!-- Small boxes (Stat box) -->
-					<div class="row">
-						<div class="col-lg-3 col-6">
-							<!-- small box -->
-							<div class="small-box"
-								style="background-color: white; border-bottom: 8px solid dodgerblue; border-top: 2px solid dodgerblue; display: grid; grid-template-columns: 2fr 1fr; align-items: center;">
-								<div class="inner">
-
-									<h1 
-										style="color: dodgerblue; font-size: 50px;">50</h1>
-
-									<p>
-									<h5 class="text-primary">Books</h5>
-									</p>
-								</div>
-								<div class="icon">
-									<i class="fas"> <img
-										th:src="@{/Images/icons8_Book_Shelf_50px.png}" alt=""
-										srcset="">
-									</i>
-								</div>
-								<!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
-							</div>
-						</div>
-						<!-- ./col -->
-						<div class="col-lg-3 col-6">
-							<!-- small box -->
-							<div class="small-box"
-								style="background-color: white; border-bottom: 8px solid aqua; border-top: 2px solid aqua; display: grid; grid-template-columns: 2fr 1fr; align-items: center;">
-								<div class="inner">
-
-									<h1 
-										style="color: aqua; font-size: 50px;">20</h1>
-
-									<p>
-									<h5 class="text-success">Students</h5>
-									</p>
-								</div>
-								<div class="icon">
-									<i class="fas"> <img
-										th:src="@{/Images/icons8_People_50px.png}" alt="" srcset="">
-									</i>
-								</div>
-								<!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
-							</div>
-						</div>
-						<!-- ./col -->
-						<div class="col-lg-3 col-6">
-							<!-- small box -->
-							<div class="small-box"
-								style="background-color: white; border-bottom: 8px solid #ffcd3d; border-top: 2px solid #ffcd3d; display: grid; grid-template-columns: 2fr 1fr; align-items: center;">
-								<div class="inner">
-
-									<h1
-										style="color: black; font-size: 50px;">30</h1>
-
-									<p>
-									<h5 class="text-warning">Issued Books</h5>
-									</p>
-								</div>
-								<div class="icon">
-									<i class="fas"> <img
-										th:src="@{/Images/icons8_Sell_50px.png}" alt="" srcset="">
-									</i>
-								</div>
-								<!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
-							</div>
-						</div>
-						<!-- ./col -->
-						<div class="col-lg-3 col-6">
-							<!-- small box -->
-							<div class="small-box"
-								style="background-color: white; border-bottom: 8px solid red; border-top: 2px solid red; display: grid; grid-template-columns: 2fr 1fr; align-items: center;">
-								<div class="inner">
-									<h1
-										style="color: red; font-size: 50px;">8</h1>
-
-									<p>
-									<h5 class="text-danger">Defaulter List</h5>
-									</p>
-								</div>
-								<div class="icon">
-									<i class="fas"> <img
-										th:src="@{/Images/icons8_List_of_Thumbnails_50px.png}" alt=""
-										srcset="">
-									</i>
-								</div>
-								<!-- <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a> -->
-							</div>
-						</div>
-						<!-- ./col -->
-					</div>
-					<!-- /.row -->
-
-					<!-- /.row -->
-					
-
-					<h5 class="text-primary"
-						style="margin-bottom: -45px; text-align: center">Student
-						Details</h5>
-					
-					
-					<h5 class="text-primary"
-						style="margin-bottom: -45px; text-align: center">Book Details</h5>
-					
-
-					
-<h5 class="text-primary"
-						style="margin-bottom: 25px; text-align: center">Gender Distribution</h5>
-					<div class="col-md-8  px-5" style = "margin:auto">
-						
-							    <canvas id="gender-chart"></canvas>
-
-					</div>
-
-
-				</div>
-				<!-- /.container-fluid -->
-
-			</section>
-
-			<div class="modal fade" id="end_session" tabindex="-1" role="dialog"
-				aria-labelledby="exampleModalLabel" aria-hidden="true">
-				<div class="modal-dialog modal-dialog-centered" role="document">
-					<div class="modal-content">
-						<form method="POST" th:action="@{/logout}">
-							<div class="modal-body text-center text-dark">
-								<img th:src="@{/Images/icons8-male-user-50.png}" alt=""
-									style="width: 24px; height: 24px"><br>
-								<h4>Leaving so soon</h4>
-								<p>Have you finished exploring the system?</p>
-								<button type="button" class="text-center btn btn-success"
-									data-dismiss="modal">No, I'm still exploring</button>
-								<span sec:authorize="isAuthenticated"><button
-										type="submit" value="Yes, I`d like to leave"
-										class="text-center btn btn-danger">Yes, I`d like to
-										leave</button></span>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div>
+			<!-- end row -->
 
 		</div>
-</section>
-</body>
+		<!-- container -->
+
+		
+<script>
+      $(function () {
+        $("#example1").DataTable();
+        $("#example2").DataTable({
+          paging: true,
+          lengthChange: false,
+          searching: false,
+          ordering: true,
+          info: true,
+          autoWidth: false,
+        });
+      });
+    </script>
+		<!-- Footer Start -->
+		<footer class="footer">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-12 text-center">
+						<script>document.write(new Date().getFullYear())</script>
+						© LMS - by <b>DigitalVortex</b>
+					</div>
+				</div>
+			</div>
+		</footer>
+		<!-- end Footer -->
+
+	</section>
+
 </body>
 </html>

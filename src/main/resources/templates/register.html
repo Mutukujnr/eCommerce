@@ -1,25 +1,39 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org"
-	th:replace="~{base::layout(~{::section})}">
+	th:fragment="layout(content)">
 <head>
-<meta charset="UTF-8">
-<title>Register</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Shop</title>
+<!-- Tell the browser to be responsive to screen width -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Font Awesome -->
+<link rel="stylesheet"
+	th:href="@{/plugins/fontawesome-free/css/all.min.css}">
+<!-- Ionicons -->
+<link rel="stylesheet"
+	href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+<!-- Theme style -->
+
+<link rel="stylesheet" th:href="@{/CSS/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/CSS/style.css}">
+<link rel="stylesheet" th:href="@{/CSS/fontawesome.css}">
+<link
+	href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
+	rel="stylesheet">
 </head>
-<body>
+<body class="authentication-bg position-relative" th:style="'background-image: url(' +@{Images/Login_bg.jpg}+');'">>
 	<section>
 		<div
-			class="account-pages pt-2 pt-sm-5 pb-4 pb-sm-5 position-relative mt-5"
-			th:style="'background-image:url(' +@{Images/bg.jpg}+');'">
+			class="account-pages pt-2 pt-sm-5 pb-4 pb-sm-5 position-relative "
+			>
 			<div class="container">
 				<div class="row justify-content-center">
-					<div class="col-xxl-8 col-lg-10">
+					<div class="card col-lg-8 mx-auto">
 						<div class="card overflow-hidden">
-							<div class="row g-0">
-								<div class="col-lg-6 d-none d-lg-block p-2">
-									<img th:src="@{/Images/devices.jpg}" alt=""
-										class="img-fluid rounded h-100">
-								</div>
-								<div class="col-lg-6">
+							
+								
+								
 									<div class="d-flex flex-column h-100">
 										<div class="auth-brand p-4">
 											<h3 class="text-primary display-6">
@@ -157,7 +171,7 @@
 				<div class="row">
 					<div class="col-12 text-center">
 						<p class="text-dark-emphasis">
-							Already have an account? <a th:href="@{/login}"
+							Already have an account? <a th:href="@{/signin}"
 								class=" link-offset-3 text-decoration-underline"><b>Sign
 									In</b></a>
 						</p>

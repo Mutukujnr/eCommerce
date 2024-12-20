@@ -2,6 +2,8 @@ package com.eCommerce.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 import com.eCommerce.model.OrderRequest;
 import com.eCommerce.model.ProductOrder;
 
@@ -16,4 +18,6 @@ public interface OrderService {
 	public List<ProductOrder> getAllOrders();
 	
 	ProductOrder getOrderById(String orderId);
+	
+	public Page<ProductOrder> getAllOrdersPagination(Integer pageNo, Integer pageSize);
 }

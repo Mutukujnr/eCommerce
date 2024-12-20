@@ -2,6 +2,7 @@ package com.eCommerce.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.eCommerce.model.Category;
 import com.eCommerce.model.User;
 import com.eCommerce.repository.UserRepository;
 import com.eCommerce.service.UserService;
@@ -146,9 +148,10 @@ public class UserServiceImpl implements UserService {
 		Optional<User> option  = userRepository.findById(user.getId());
 		User existingUser = null;
 		
-		if(!image.isEmpty()) {
-			existingUser.setProfile(image.getOriginalFilename());
-		}
+		/*
+		 * if(!image.isEmpty()) { existingUser.setProfile(image.getOriginalFilename());
+		 * }
+		 */
 		
 		if(option.isPresent()) {
 			
@@ -161,18 +164,74 @@ public class UserServiceImpl implements UserService {
 			existingUser.setState(user.getState());
 			existingUser.setPinCode(user.getPinCode());
 			
+		
+		
+		
+		
+		try {
+			
+			if(!image.getOriginalFilename().isEmpty()) {
+				String upload = "public/Images";
+				String uploadDir = upload + "/profile/";
+				Path oldImage = Paths.get(uploadDir + user.getProfile());
+				
+				try {
+					Files.delete(oldImage);
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				
+				//MultipartFile profile = categoryDTO.getImageName();
+				String storageFileName = image.getOriginalFilename();
+				
+				try (InputStream inputStream = image.getInputStream()) {
+					Files.copy(inputStream, Paths.get(uploadDir + storageFileName), StandardCopyOption.REPLACE_EXISTING);
+				}
+				
+				existingUser.setProfile(storageFileName);
+			} 
+			
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			
 		}
 		
-		if (!image.isEmpty()) {
-			File saveFile = new ClassPathResource("static/Images").getFile();
-			Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + "profile_img" + File.separator
-					+ image.getOriginalFilename());
-
-			System.out.println(path);
-			Files.copy(image.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 		}
+		
+		
+		/*
+		 * if (!image.isEmpty()) { existingUser.setProfile(image.getOriginalFilename());
+		 * File saveFile = new ClassPathResource("static/Images").getFile(); Path path =
+		 * Paths.get(saveFile.getAbsolutePath() + File.separator + "profile_img" +
+		 * File.separator + image.getOriginalFilename());
+		 * 
+		 * System.out.println(path); Files.copy(image.getInputStream(), path,
+		 * StandardCopyOption.REPLACE_EXISTING); }
+		 */
 		
 		return userRepository.save(existingUser);
+	}
+
+	@Override
+	public User saveAdmin(User user) {
+		user.setRole("ROLE_ADMIN");
+		user.setIsEnabled(true);
+		String encode = passwordEncoder.encode(user.getPassword());
+		user.setPassword(encode);
+		user.setAccountNonLocked(true);
+		user.setFailAttempts(0);
+		user.setLockTime(null);
+		return userRepository.save(user);
+	}
+
+	
+	
+	
+	@Override
+	public long getUserCount() {
+		// TODO Auto-generated method stub
+		return userRepository.countCustomers();
 	}
 
 }
