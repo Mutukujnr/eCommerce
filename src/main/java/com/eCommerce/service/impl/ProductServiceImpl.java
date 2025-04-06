@@ -152,7 +152,7 @@ Product product = productRepository.findById(id).orElse(null);
 	public Page<Product> findAllActiveProductsWithPagination(int pageNo, int pageSize,String category) {
 		
 		//Sort sort = Sort.by(Sort.Direction.ASC, );
-		Pageable pageable = PageRequest.of(pageNo, pageSize);
+		Pageable pageable = PageRequest.of(pageNo, pageSize,Sort.by(Sort.Direction.DESC, "id"));
 		
  Page<Product> products = null;
 		
@@ -173,7 +173,7 @@ Product product = productRepository.findById(id).orElse(null);
 
 	@Override
 	public Page<Product> searchProductPagination(Integer pageNo, Integer pageSize, String search) {
-		Pageable pageable = PageRequest.of(pageNo, pageSize);
+		Pageable pageable = PageRequest.of(pageNo, pageSize,Sort.by(Sort.Direction.DESC, "id"));
 		
 		return productRepository.findByTitleContainingIgnoreCaseOrCategoryContainingIgnoreCase(search, search,pageable);
 		

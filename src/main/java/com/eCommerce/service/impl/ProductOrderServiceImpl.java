@@ -72,13 +72,18 @@ public class ProductOrderServiceImpl implements OrderService{
 			order.setAddress(address);
 			
 			ProductOrder save = productOrderRepository.save(order);
+			
+			
 			/*
 			 * try { commonUtils.sendProductOrderMail(save,"order received"); } catch
 			 * (Exception e) {
 			 * 
 			 * e.printStackTrace(); }
 			 */
+			
+			//cartRepository.delete(c);
 		}
+		
 		
 	}
 

@@ -23,6 +23,7 @@ import com.eCommerce.model.OrderRequest;
 import com.eCommerce.model.Product;
 import com.eCommerce.model.ProductOrder;
 import com.eCommerce.model.User;
+import com.eCommerce.repository.CartRepository;
 import com.eCommerce.service.CartService;
 import com.eCommerce.service.CategoryService;
 import com.eCommerce.service.OrderService;
@@ -58,6 +59,9 @@ public class UserController {
 	 */
 	@Autowired
 	PasswordEncoder encoder;
+	
+	@Autowired
+	CartRepository cartRepository;
 	
 	
 	@ModelAttribute
@@ -191,12 +195,19 @@ public class UserController {
     	List<Cart> order = cartService.checkOutItems(user.getId());
     	
     	Double totalOrderCost = 0.0;
-    	for(Cart c: order) {
-    		totalOrderCost+=c.getTotalPrice();
-    	}
+    	
     	
      	m.addAttribute("items", userOrders);
-     	m.addAttribute("total", totalOrderCost);
+     	
+     	
+     	for(Cart c: order) {
+    		totalOrderCost+=c.getTotalPrice();
+    		m.addAttribute("total", totalOrderCost);
+    		cartService.deleteCart(c);
+    	}
+     	
+     	//cartRepository.delete(order);
+     	//cartService.deleteCart(order);
 		return "/user/order-success";
     	
     }

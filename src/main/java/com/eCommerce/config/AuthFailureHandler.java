@@ -1,21 +1,19 @@
 package com.eCommerce.config;
 
-import java.io.IOException;
-
+import com.eCommerce.model.User;
+import com.eCommerce.repository.UserRepository;
+import com.eCommerce.service.UserService;
+import com.eCommerce.utils.AppConstraint;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
-import com.eCommerce.model.User;
-import com.eCommerce.repository.UserRepository;
-import com.eCommerce.service.UserService;
-import com.eCommerce.utils.AppConstraint;
-
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Component
 public class AuthFailureHandler extends SimpleUrlAuthenticationFailureHandler{
